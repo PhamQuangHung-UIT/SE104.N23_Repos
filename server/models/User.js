@@ -34,22 +34,26 @@ const UserSchema = new schema({
     type: String,
     default: 'user'
   },
-  cart: {
-    type: [
-      {
-        book: {
-          type: mongoose.Types.ObjectId,
-          ref: 'book'
-        },
-        amount: {
-          type: Number,
-          default: '1',
-        }
-      }
-    ],
-    default: []
-  },
+  // cart: {
+  //   type: [
+  //     {
+  //       book: {
+  //         type: mongoose.Types.ObjectId,
+  //         ref: 'book'
+  //       },
+  //       amount: {
+  //         type: Number,
+  //         default: '1',
+  //       }
+  //     }
+  //   ],
+  //   default: []
+  // },
   createAt: {
+    type: Date,
+    default: Date.now
+  },
+  updateAt: {
     type: Date,
     default: Date.now
   }
