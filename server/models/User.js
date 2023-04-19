@@ -34,21 +34,6 @@ const UserSchema = new schema({
     type: String,
     default: 'user'
   },
-  // cart: {
-  //   type: [
-  //     {
-  //       book: {
-  //         type: mongoose.Types.ObjectId,
-  //         ref: 'book'
-  //       },
-  //       amount: {
-  //         type: Number,
-  //         default: '1',
-  //       }
-  //     }
-  //   ],
-  //   default: []
-  // },
   createAt: {
     type: Date,
     default: Date.now
@@ -59,4 +44,4 @@ const UserSchema = new schema({
   }
 })
 
-module.exports = mongoose.model('users', UserSchema)
+module.exports = mongoose.model('user', UserSchema)
