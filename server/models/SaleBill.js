@@ -19,4 +19,4 @@ const SaleBillSchema = new Schema({
   },
 })
 
-module.exports = mongoose.model('saleBill', PostSchema)
+module.exports = mongoose.model('saleBill', SaleBillSchema)

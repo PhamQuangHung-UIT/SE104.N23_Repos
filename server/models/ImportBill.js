@@ -23,4 +23,4 @@ const ImportBillSchema = new Schema({
   },
 })
 
-module.exports = mongoose.model('importBill', PostSchema)
+module.exports = mongoose.model('importBill', ImportBillSchema)

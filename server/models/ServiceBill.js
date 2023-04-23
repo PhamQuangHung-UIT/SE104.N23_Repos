@@ -24,4 +24,4 @@ const ServiceBillSchema = new Schema({
   },
 })
 
-module.exports = mongoose.model('serviceBill', PostSchema)
+module.exports = mongoose.model('serviceBill', ServiceBillSchema)

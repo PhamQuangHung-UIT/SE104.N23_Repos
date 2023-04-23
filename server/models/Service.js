@@ -20,4 +20,4 @@ const ServiceSchema = new Schema({
   },
 })
 
-module.exports = mongoose.model('service', PostSchema)
+module.exports = mongoose.model('service', ServiceSchema)

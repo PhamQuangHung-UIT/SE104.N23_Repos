@@ -24,4 +24,4 @@ const SupplierSchema = new Schema({
   },
 })
 
-module.exports = mongoose.model('supplier', PostSchema)
+module.exports = mongoose.model('supplier', SupplierSchema)
