@@ -4,7 +4,6 @@ import RoutesApp from "./navigation/RoutesApp";
 const App = () => {
   return (
     <div>
-      
       <Router>
         <RoutesApp />
       </Router>
