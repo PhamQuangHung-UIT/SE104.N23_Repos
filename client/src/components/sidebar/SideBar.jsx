@@ -5,10 +5,13 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import sidebar from "../../assets/data/sidebar.json";
 
-const SideBar = ({ children }) => {
+const SideBar = ({ children,setIsOpenSidebar}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [pageActive,setPageActive] = useState(0);
-    const toggle = () => setIsOpen(!isOpen);
+    const toggle = () => {
+      setIsOpen(!isOpen);
+      setIsOpenSidebar(isOpen)
+    };
   
     const showAnimation = {
       hidden: {
@@ -99,9 +102,7 @@ const SideBar = ({ children }) => {
             </section>
           </motion.div>
 
-          <main style={{ marginLeft: isOpen ? "200px" : "45px" }}>
-            {children}
-          </main>
+          
         </div>
       </>
     );
