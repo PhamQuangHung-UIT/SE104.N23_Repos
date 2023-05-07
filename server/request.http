@@ -1,38 +1,47 @@
-
-
 POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-  "username" : "test4",
-  "password" : "11111111"
+  "account" : "admin",
+  "password" : "admin"
 }
-
 ### 
-
 POST http://localhost:5000/api/auth/login
 Content-Type:  application/json
 
 {
-  "username": "test4",
-  "password": "11111111"
+  "account": "admin",
+  "password": "admin"
 }
-
 ###
-GET http://localhost:5000/api/auth/getAllUser
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmVjY2ZiMjBmOGQ2ZWE5NDcwNjQzOTYiLCJpYXQiOjE2NTk2ODczMjl9.wO71LQiLWeZNF4bb-E-ews2WqD4GOj__ZlxvvdpHTPc
-
-###
-GET http://localhost:5000/api/auth
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmRkMTE1YmRkMjUxOTYzNTE3YWRiYjUiLCJpYXQiOjE2NTkwMjIwMDZ9.56Sb2U0Nc7hUkSlmmDG-oG40BFuXbIFzAyijl-QIhTs
-###
-PUT http://localhost:5000/api/cart/addToCart
-Content-Type: application/json 
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2M2MmIyMzE3ZTRiYzAwNjEwZTgwZTIiLCJpYXQiOjE2NzM5MzE1NTV9.nqQMrByfWcIHmcTPaa-tA8eRVymR26jVPEv5DCNULQY
+POST http://localhost:5000/api/customer
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3MTljYzg2NjAyMTY2MDU5MjgzOGQiLCJpYXQiOjE2ODM0MzIxODh9.0pH2sC8WHRyJuJwEiCR5Hhu0RGhkF63eh9GRkA0UJzg
 
 {
-  "cartNewItem": "6394440f96fdb0665e584688"
+  "name": "khachhang2",
+  "email": "email",
+  "img": "img",
+  "telephoneNumber": "123",
+  "address": "address"
 }
+###
+PUT http://localhost:5000/api/customer/645723267ca07cc1fa0d6e1d
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3MTljYzg2NjAyMTY2MDU5MjgzOGQiLCJpYXQiOjE2ODM0MzIxODh9.0pH2sC8WHRyJuJwEiCR5Hhu0RGhkF63eh9GRkA0UJzg
+
+{
+  "name": "khachhang123",
+  "email": "email",
+  "img": "img",
+  "telephoneNumber": "123",
+  "address": "address"
+}
+###
+GET http://localhost:5000/api/customer/GetAllCustomer
+Content-Type: application/json 
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3MTljYzg2NjAyMTY2MDU5MjgzOGQiLCJpYXQiOjE2ODM0MzIxODh9.0pH2sC8WHRyJuJwEiCR5Hhu0RGhkF63eh9GRkA0UJzg
+
 ###
 PUT http://localhost:5000/api/cart/deleteFromCart
 Content-Type: application/json 

@@ -1,16 +1,8 @@
 const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
-const UserSchema = new schema({
-  realname: {
-    type: String,
-    default: ''
-  },
-  username: {
-    type: String,
-    default: ''
-  },
-  password: {
+const CustomerSchema = new schema({
+  name: {
     type: String,
     default: ''
   },
@@ -30,10 +22,6 @@ const UserSchema = new schema({
     type: String,
     default: ''
   },
-  role: {
-    type: String,
-    default: 'user'
-  },
   createAt: {
     type: Date,
     default: Date.now
@@ -44,4 +32,4 @@ const UserSchema = new schema({
   }
 })
 
-module.exports = mongoose.model('user', UserSchema)
+module.exports = mongoose.model('customer', CustomerSchema)
