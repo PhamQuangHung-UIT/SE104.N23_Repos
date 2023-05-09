@@ -3,12 +3,17 @@ import SideBar from "../sidebar/SideBar";
 import "./HomeLayout.css";
 import { Outlet } from "react-router-dom";
 const HomeLayout = () => {
-  const [isOpenSidebar,setIsOpenSidebar]=useState(false)
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   return (
     <>
-
-      <SideBar isOpenSidebar={isOpenSidebar} setIsOpenSidebar={setIsOpenSidebar} />
-      <div style={{ marginLeft:isOpenSidebar? "200px" :'0px'}} className="main">
+      <SideBar
+        isOpenSidebar={isOpenSidebar}
+        setIsOpenSidebar={setIsOpenSidebar}
+      />
+      <div
+        style={{ marginLeft: isOpenSidebar ? "200px" : "56px" }}
+        className="main"
+      >
         <Outlet />
       </div>
     </>

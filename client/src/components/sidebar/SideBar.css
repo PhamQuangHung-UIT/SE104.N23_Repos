@@ -19,7 +19,6 @@ main {
   background: var(--main-color);
   color: white;
   height: 100vh;
-  min-width: 56px;
 }
 
 .top_section {
