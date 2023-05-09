@@ -1,9 +1,9 @@
-import "./SideBar.css";
-import { NavLink } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
-import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import sidebar from "../../assets/data/sidebar.json";
+import { useState } from "react";
+import { FaBars } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import "./SideBar.css";
+import { listSidebar } from "./listSidebar";
 
 const SideBar = ({ children, setIsOpenSidebar }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,7 +70,7 @@ const SideBar = ({ children, setIsOpenSidebar }) => {
           </div>
 
           <section className="routes">
-            {sidebar.map((item, index) => {
+            {listSidebar.map((item, index) => {
               return (
                 <NavLink
                   onClick={() => {
@@ -82,7 +82,7 @@ const SideBar = ({ children, setIsOpenSidebar }) => {
                     index === pageActive ? `link sidebar-active` : `link`
                   }
                 >
-                  <i className={`${item.icon} icon`}></i>
+                  <item.icon className="icon-tab"/>
                   <AnimatePresence>
                     {isOpen && (
                       <motion.div
