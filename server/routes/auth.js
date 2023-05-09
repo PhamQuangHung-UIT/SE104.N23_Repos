@@ -5,35 +5,33 @@ const jwt = require('jsonwebtoken')
 const verifyToken = require('../middleware/auth')
 const Account = require('../models/Account')
 
-// router.post('/register', async (req, res) => {
+router.post('/register', async (req, res) => {
 
-//   const { account, password } = req.body
-//   if (!account || !password)
-//     return res.status(400).json({ success: false, message: 'Thiếu tài khoản hoặc mật khẩu' })
+  const { account, password } = req.body
+  if (!account || !password)
+    return res.status(400).json({ success: false, message: 'Thiếu tài khoản hoặc mật khẩu' })
 
-//   try {
-//     // check for existing user
-//     // const account = await Account.findOne({ account: account })
-//     // if (account)
-//     //   return res.status(400).json({ success: false, message: 'Tài khoản đã tồn tại' })
-//     // all good
-//     const hashedPassword = await argon2.hash(password)
-//     const newUser = new Account({ account, password: hashedPassword })
-//     await newUser.save()
+  try {
+    const existingAccount = await Account.findOne({ account: account })
+    if (existingAccount)
+      return res.status(400).json({ success: false, message: 'Tài khoản đã tồn tại' })
 
-//     //return token
-//     const accessToken = jwt.sign(
-//       { userId: newUser._id },
-//       process.env.ACCESS_TOKEN_SECRET
-//     )
+    const hashedPassword = await argon2.hash(password)
+    const newUser = new Account({ account, password: hashedPassword })
+    await newUser.save()
 
-//     res.json({ success: true, message: 'Tạo tài khoản thành công', accessToken })
+    const accessToken = jwt.sign(
+      { userId: newUser._id },
+      process.env.ACCESS_TOKEN_SECRET
+    )
 
-//   } catch (error) {
-//     console.log(error)
-//     res.status(500).json({ success: false, message: 'Kết nối mạng của bạn có thể có vấn đề' })
-//   }
-// })
+    res.json({ success: true, message: 'Tạo tài khoản thành công', accessToken })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Kết nối mạng của bạn có thể có vấn đề' })
+  }
+})
 
 router.post('/login', async (req, res) => {
 

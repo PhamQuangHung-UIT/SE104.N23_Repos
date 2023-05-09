@@ -10,6 +10,10 @@ const AccountSchema = new schema({
     type: String,
     default: ''
   },
+  role: {
+    type: String,
+    default: 'staff'
+  },
   createAt: {
     type: Date,
     default: Date.now
