@@ -11,6 +11,9 @@ router.post('/register', async (req, res) => {
   if (!account || !password)
     return res.status(400).json({ success: false, message: 'Thiếu tài khoản hoặc mật khẩu' })
 
+  if (password.length < 6 || account < 6)
+    return res.status(400).json({ success: false, message: "Tài khoản và mật khẩu tối thiếu phải có 6 kí tự" })
+
   try {
     const existingAccount = await Account.findOne({ account: account })
     if (existingAccount)
@@ -40,6 +43,9 @@ router.post('/login', async (req, res) => {
     return res
       .status(400)
       .json({ success: false, message: 'Thiếu tài khoản hoặc mật khẩu' })
+
+  if (password.length < 6 || account < 6)
+    return res.status(400).json({ success: false, message: "Tài khoản và mật khẩu tối thiếu phải có 6 kí tự" })
 
   try {
 
