@@ -19,13 +19,12 @@ main {
   background: var(--main-color);
   color: white;
   height: 100vh;
-  min-width: 56px;
 }
 
 .top_section {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 15px 10px;
 }
 .logo {
@@ -45,11 +44,15 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   width: 30px;
   cursor: pointer;
 }
 .icon-bars {
   font-size: 20px;
+}
+.icon-tab{
+  font-size: 18px;
 }
 .hide {
   display: none;
