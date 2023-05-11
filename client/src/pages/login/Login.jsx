@@ -5,20 +5,31 @@ import "./Login.css";
 import useFormLogin from "./useFormLogin";
 import validateUser from "./validateUser";
 const Login = ({ setIsAuticated }) => {
+
   const [errorLogin, setErorLogin] = useState("");
   const navigate = useNavigate()
+
   const submitForm = () => {
-    const username = user.username;
-    const password = user.password;
+
+    const registerInput = {
+      account: user.username,
+      password: user.password,
+    }
+    // const username = user.username;
+    // const password = user.password;
     axios
       .post(
-        `http://localhost:5000/api/auth/login?account=${username}&password=${password}`
+        // `http://localhost:8080/api/users/login?username=${username}&password=${password}`
+        `http://localhost:5000/api/auth/login`, registerInput
       )
       .then((res) => {
-        localStorage.setItem("user", JSON.stringify(res.data));
-        //setIsAuticated(true);
-        console.log(res)
-        navigate("/home");
+        if (res.data.success) {
+          alert(res.data.message)
+          navigate("/home");
+        }
+        // localStorage.setItem("user", JSON.stringify(res.data));
+        // //setIsAuticated(true);
+        // 
       })
       .catch((e) => {
         console.log(e)
