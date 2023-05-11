@@ -12,14 +12,16 @@ const Login = ({ setIsAuticated }) => {
     const password = user.password;
     axios
       .post(
-        `http://localhost:8080/api/users/login?username=${username}&password=${password}`
+        `http://localhost:5000/api/auth/login?account=${username}&password=${password}`
       )
       .then((res) => {
         localStorage.setItem("user", JSON.stringify(res.data));
         //setIsAuticated(true);
+        console.log(res)
         navigate("/home");
       })
       .catch((e) => {
+        console.log(e)
         setErorLogin("Tên tài khoản hoặc mật khẩu không chính xác");
       });
     //Navigate to Screen
