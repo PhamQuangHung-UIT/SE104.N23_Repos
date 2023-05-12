@@ -4,38 +4,30 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import useFormLogin from "./useFormLogin";
 import validateUser from "./validateUser";
-const Login = ({ setIsAuticated }) => {
-
+const Login = () => {
   const [errorLogin, setErorLogin] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const submitForm = () => {
-
     const registerInput = {
       account: user.username,
       password: user.password,
-    }
-    // const username = user.username;
-    // const password = user.password;
+    };
     axios
-      .post(
-        // `http://localhost:8080/api/users/login?username=${username}&password=${password}`
-        `http://localhost:5000/api/auth/login`, registerInput
-      )
+      .post(`http://localhost:5000/api/auth/login`, registerInput)
       .then((res) => {
         if (res.data.success) {
-          alert(res.data.message)
-          navigate("/home");
+          localStorage.setItem(
+            "accessToken",
+            JSON.stringify(res.data.accessToken)
+          );
+          navigate("/");
         }
-        // localStorage.setItem("user", JSON.stringify(res.data));
-        // //setIsAuticated(true);
-        // 
       })
       .catch((e) => {
-        console.log(e)
+        console.log(e);
         setErorLogin("Tên tài khoản hoặc mật khẩu không chính xác");
       });
-    //Navigate to Screen
   };
   const { handleChange, handleSubmit, user, errors } = useFormLogin(
     submitForm,

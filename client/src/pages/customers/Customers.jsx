@@ -7,6 +7,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+
+import axios from "axios";
 import { useReactToPrint } from "react-to-print";
 
 const columns = [
@@ -54,6 +56,21 @@ const Customers = () => {
     setPage(0);
   };
 
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    console.log(accessToken)
+    axios
+      .get(`http://localhost:5000/api/customer/GetAllCustomer`, accessToken)
+      .then((res) => {
+        // setDefaultCustomer(res.data);
+        // setCustomers(res.data);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, []);
+
   return (
     <div className="main customers">
       <div className="search_name">
@@ -97,6 +114,9 @@ const Customers = () => {
                   placeholder="Giá trị"
                   type="number"
                   value={pointTo}
+                  onChange={(e) => {
+                    setPointTo(e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -111,6 +131,9 @@ const Customers = () => {
                   placeholder="Giá trị"
                   type="number"
                   value={totalPriceFrom}
+                  onChange={(e) => {
+                    setTotalPriceFrom(e.target.value);
+                  }}
                 />
               </div>
               <div className="card_value-item">
@@ -120,6 +143,9 @@ const Customers = () => {
                   placeholder="Giá trị"
                   type="number"
                   value={totalPriceTo}
+                  onChange={(e) => {
+                    setTotalPriceTo(e.target.value);
+                  }}
                 />
               </div>
             </div>
