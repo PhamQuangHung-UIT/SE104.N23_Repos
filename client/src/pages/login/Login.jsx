@@ -21,6 +21,11 @@ const Login = () => {
             "accessToken",
             JSON.stringify(res.data.accessToken)
           );
+          localStorage.setItem(
+            "user",
+            JSON.stringify(res.data.user)
+          );
+          console.log(res)
           navigate("/");
         }
       })

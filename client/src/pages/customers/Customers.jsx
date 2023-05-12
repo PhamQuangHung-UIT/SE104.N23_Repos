@@ -60,7 +60,12 @@ const Customers = () => {
     const accessToken = localStorage.getItem("accessToken");
     console.log(accessToken)
     axios
-      .get(`http://localhost:5000/api/customer/GetAllCustomer`, accessToken)
+      .get(`http://localhost:5000/api/customer/GetAllCustomer`, accessToken, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
       .then((res) => {
         // setDefaultCustomer(res.data);
         // setCustomers(res.data);
