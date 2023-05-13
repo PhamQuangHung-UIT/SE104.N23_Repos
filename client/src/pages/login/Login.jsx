@@ -19,7 +19,7 @@ const Login = () => {
         if (res.data.success) {
           localStorage.setItem(
             "accessToken",
-            JSON.stringify(res.data.accessToken)
+            res.data.accessToken
           );
           localStorage.setItem(
             "user",

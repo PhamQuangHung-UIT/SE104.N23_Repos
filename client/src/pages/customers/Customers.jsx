@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 
 import axios from "axios";
 import { useReactToPrint } from "react-to-print";
+import setAuthToken from "../../untils/setAuthToken";
 
 const columns = [
   { id: "id", label: "Mã Khách hàng" },
@@ -59,13 +60,9 @@ const Customers = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     console.log(accessToken)
+    setAuthToken(accessToken)
     axios
-      .get(`http://localhost:5000/api/customer/GetAllCustomer`, accessToken, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
+      .get(`http://localhost:5000/api/customer/GetAllCustomer`)
       .then((res) => {
         // setDefaultCustomer(res.data);
         // setCustomers(res.data);
