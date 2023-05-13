@@ -28,7 +28,7 @@ router.post('/register', async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET
     )
 
-    res.json({ success: true, message: 'Tạo tài khoản thành công', accessToken: accessToken, user: newUser  })
+    res.json({ success: true, message: 'Tạo tài khoản thành công', accessToken: accessToken  })
 
   } catch (error) {
     console.log(error)
@@ -64,7 +64,7 @@ router.post('/login', async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET
     )
 
-    res.json({ success: true, message: 'Đăng nhập thành công!!!', accessToken: accessToken, user: user })
+    res.json({ success: true, message: 'Đăng nhập thành công!!!', accessToken: accessToken })
 
   } catch (error) {
     console.log(error)
@@ -73,5 +73,19 @@ router.post('/login', async (req, res) => {
   }
 })
 
+router.get('/getAllStaffs', async (req, res) => {
+
+  try {
+    const staffs = await Account.find({ role: "staff" }).select("-password")
+    if (!staffs)
+      return res.status(400).json({ success: false, message: 'hiện chưa có nhân viên ' })
+
+    res.json({ success: true, message: 'Lấy nhân viên thành công', staffs: staffs  })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Kết nối mạng của bạn có thể có vấn đề' })
+  }
+})
 
 module.exports = router

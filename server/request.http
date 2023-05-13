@@ -44,13 +44,10 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDVjNjA0MmU2ODk2NjZiZjk1MzkxM2UiLCJpYXQiOjE2ODM5MDAyMjl9.hW2g0Jf_5bPC2oaWCQiJOr0jqtLgQiryJXwrxTvNOwE
 
 ###
-PUT http://localhost:5000/api/cart/deleteFromCart
+GET http://localhost:5000/api/auth/getAllStaffs
 Content-Type: application/json 
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2M2MmIyMzE3ZTRiYzAwNjEwZTgwZTIiLCJpYXQiOjE2NzQ3OTM1NTd9.aNgSbMZltaGO30Y0jUZF2EqVvVCQPyClpy61QQzO62E
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDVjNjA0MmU2ODk2NjZiZjk1MzkxM2UiLCJpYXQiOjE2ODM5MDAyMjl9.hW2g0Jf_5bPC2oaWCQiJOr0jqtLgQiryJXwrxTvNOwE
 
-{
-  "cartDeleteItem": "6394427d96fdb0665e58467c"
-}
 ###
 PUT http://localhost:5000/api/auth/test
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzJkOTcyZTA4ZjZlZDBkODhlMWQ5MDMiLCJpYXQiOjE2NzM1MTYzMTd9.5TVKMGZkGLrf2RTgcjVc2ub0kK_yNfSzklLEnnvuWSI
