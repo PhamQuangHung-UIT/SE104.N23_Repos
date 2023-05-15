@@ -7,16 +7,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-
+import setAuthToken from "../../untils/setAuthToken";
 import axios from "axios";
 import { useReactToPrint } from "react-to-print";
-import setAuthToken from "../../untils/setAuthToken";
 
 const columns = [
-  { id: "id", label: "Mã Khách hàng" },
+  { id: "_id", label: "Mã Khách hàng" },
   { id: "name", label: "Tên khách hàng" },
   {
-    id: "phone",
+    id: "telephoneNumber",
     label: "Số điện thoại",
   },
   {
@@ -59,13 +58,13 @@ const Customers = () => {
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    console.log(accessToken)
-    setAuthToken(accessToken)
+    console.log(accessToken);
+    setAuthToken(accessToken);
     axios
       .get(`http://localhost:5000/api/customer/GetAllCustomer`)
       .then((res) => {
-        // setDefaultCustomer(res.data);
-        // setCustomers(res.data);
+        setDefaultCustomer(res.data.customers);
+        setCustomers(res.data.customers);
         console.log(res);
       })
       .catch((err) => {
@@ -200,7 +199,7 @@ const Customers = () => {
                         >
                           {columns.map((column) => {
                             let value = row[column.id];
-                            if (column.id === "id") {
+                            if (column.id === "_id") {
                               value = value
                                 .substr(value.length - 7)
                                 .toUpperCase();
