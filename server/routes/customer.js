@@ -99,7 +99,6 @@ router.get('/GetAllCustomer', verifyToken, async (req, res) => {
 router.get('/search/:phone', async (req, res) => {
   try {
     const phoneNumber = req.params.phone
-    console.log(phoneNumber)
     const customers = await Customer.find({ telephoneNumber: { $regex: phoneNumber, $options: 'i' } });
     // const customers = await Customer.search(req.params.phone);
     return res.status(200).json({ success: true, customers: customers })
