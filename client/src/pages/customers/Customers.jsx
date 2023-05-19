@@ -72,6 +72,48 @@ const Customers = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (!pointFrom && !pointTo) {
+      setCustomers(defaultCustomer);
+    } else if (pointFrom && pointTo) {
+      const dataPoints = defaultCustomer.filter(
+        (customer) => customer.point <= pointTo && customer.point >= pointFrom
+      );
+      setCustomers(dataPoints)
+    } else if (!pointFrom) {
+      const dataPoints = defaultCustomer.filter(
+        (customer) => customer.point <= pointTo
+      );
+      setCustomers(dataPoints);
+    } else if (!pointTo) {
+      const dataPoints = defaultCustomer.filter(
+        (customer) => customer.point >= pointFrom
+      );
+      setCustomers(dataPoints);
+    }
+  }, [pointFrom, pointTo]);
+
+  useEffect(() => {
+    if (!totalPriceFrom && !totalPriceTo) {
+      setCustomers(defaultCustomer);
+    } else if (totalPriceFrom && totalPriceTo) {
+      const dataPoints = defaultCustomer.filter(
+        (customer) => customer.totalPrice <= totalPriceTo && customer.totalPrice >= totalPriceFrom
+      );
+      setCustomers(dataPoints);
+    } else if (!totalPriceFrom) {
+      const dataPoints = defaultCustomer.filter(
+        (customer) => customer.totalPrice <= totalPriceTo
+      );
+      setCustomers(dataPoints);
+    } else if (!totalPriceTo) {
+      const dataPoints = defaultCustomer.filter(
+        (customer) => customer.totalPrice >= totalPriceFrom
+      );
+      setCustomers(dataPoints);
+    }
+  }, [totalPriceFrom, totalPriceTo]);
+
   return (
     <div className="main customers">
       <div className="search_name">
