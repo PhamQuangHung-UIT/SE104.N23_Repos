@@ -28,7 +28,7 @@ router.post('/register', async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET
     )
 
-    res.json({ success: true, message: 'Tạo tài khoản thành công', accessToken: accessToken  })
+    res.json({ success: true, message: 'Tạo tài khoản thành công', accessToken: accessToken })
 
   } catch (error) {
     console.log(error)
@@ -80,7 +80,46 @@ router.get('/getAllStaffs', async (req, res) => {
     if (!staffs)
       return res.status(400).json({ success: false, message: 'hiện chưa có nhân viên ' })
 
-    res.json({ success: true, message: 'Lấy nhân viên thành công', staffs: staffs  })
+    res.json({ success: true, message: 'Lấy nhân viên thành công', staffs: staffs })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Kết nối mạng của bạn có thể có vấn đề' })
+  }
+})
+
+router.put('/update/:id',verifyToken, async (req, res) => {
+
+  const { fullname, address, sex, birthDay, email, telephoneNumber, avatarUrl } = req.body
+  if ( !fullname || !address || !sex || !birthDay || !email || !telephoneNumber || !avatarUrl)
+    return res.status(400).json({ success: false, message: 'Không đủ thông tin cần thiết' })
+
+  try {
+    let updateAccount = {
+      fullname: fullname,
+      address: address,
+      sex: sex,
+      birthDay: birthDay,
+      email: email,
+      telephoneNumber: telephoneNumber,
+      avatarUrl: avatarUrl
+    }
+    const accountUpdateContidion = { _id: req.params.id, user: req.userId }
+    updateAccount = await Account.findByIdAndUpdate(
+      accountUpdateContidion,
+      updateAccount,
+      { new: true }
+      )
+
+      if (!updateAccount)  
+      return res
+        .status(401)
+        .json({
+          success: false,
+          message: 'Account Not Found Of User Not Authorized'
+        })
+  
+        res.json({ success: true, message: 'Excellent Progress!', account: updateAccount })
 
   } catch (error) {
     console.log(error)

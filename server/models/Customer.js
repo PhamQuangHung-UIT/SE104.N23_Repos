@@ -22,6 +22,14 @@ const CustomerSchema = new schema({
     type: String,
     default: ''
   },
+  point: {
+    type: Number,
+    default: 0,
+  },
+  totalPrice: {
+    type: Number,
+    default: 0,
+  },
   createAt: {
     type: Date,
     default: Date.now

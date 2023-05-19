@@ -10,6 +10,34 @@ const AccountSchema = new schema({
     type: String,
     default: ''
   },
+  fullname: {
+    type: String,
+    default: '',
+  },
+  address: {
+    type: String,
+    default: '',
+  },
+  sex: {
+    type: String,
+    default: '',
+  },
+  birthDay: {
+    type: String,
+    default: '',
+  },
+  email: {
+    type: String,
+    default: '',
+  },
+  telephoneNumber: {
+    type: String,
+    default: '',
+  },
+  avatarUrl: {
+    type: String,
+    default: '',
+  },
   role: {
     type: String,
     default: 'staff'

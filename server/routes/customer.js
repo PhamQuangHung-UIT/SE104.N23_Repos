@@ -80,12 +80,12 @@ router.delete('/:id', verifyToken, async (req, res) => {
 })
 
 router.get('/GetAllCustomer', verifyToken, async (req, res) => {
- 
+
   try {
-    const customers = await Customer.find()
-    
-    if(!customers) {
-      return res.status(401).json({success: false, message: "Tài khoản chưa xác thực"})
+    const customers = await Customer.find().sort({ point: -1 })
+
+    if (!customers) {
+      return res.status(401).json({ success: false, message: "Tài khoản chưa xác thực" })
     }
 
     res.json({ success: true, message: 'Lấy khách hàng thành công', customers: customers })
@@ -95,5 +95,17 @@ router.get('/GetAllCustomer', verifyToken, async (req, res) => {
     res.status(500).json({ success: false, message: 'Mạng của bạn có vấn đề' })
   }
 })
+
+router.get('/search/:phone', async (req, res) => {
+  try {
+    const phoneNumber = req.params.phone
+    const customers = await Customer.find({ telephoneNumber: { $regex: phoneNumber, $options: 'i' } });
+    // const customers = await Customer.search(req.params.phone);
+    return res.status(200).json({ success: true, customers: customers })
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message })
+  }
+});
+
 
 module.exports = router
