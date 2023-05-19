@@ -1,9 +1,12 @@
+import { Navigate } from "react-router-dom";
 const PrivateRoute = (props) => {
-  //const { auth } = useSelector((state) => state);
+  const token = localStorage.getItem("accessToken");
+
   const { children } = props;
-  //   if (!auth.token) {
-  //     return <Navigate to={"/login"} />;
-  //   }
+
+  if (!token) {
+    return <Navigate to={"/login"} />;
+  }
   return children;
 };
 
