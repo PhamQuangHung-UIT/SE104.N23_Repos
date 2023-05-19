@@ -73,7 +73,7 @@ router.post('/login', async (req, res) => {
   }
 })
 
-router.get('/getAllStaffs', async (req, res) => {
+router.get('/getAllStaffs',verifyToken, async (req, res) => {
 
   try {
     const staffs = await Account.find({ role: "staff" }).select("-password")
