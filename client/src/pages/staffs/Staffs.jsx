@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
+import setAuthToken from "../../untils/setAuthToken";
 
 const Staffs = () => {
   const [staffs, setStaffs] = useState([]);
@@ -20,16 +21,16 @@ const Staffs = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(6);
 
   const columns = [
-    { id: "id", label: "Mã nhân viên" },
+    { id: "_id", label: "Mã nhân viên" },
     { id: "fullname", label: "Tên nhân viên" },
     {
-      id: "phone",
+      id: "telephoneNumber",
       label: "Số điện thoại",
 
       format: (value) => value.toLocaleString("en-US"),
     },
     {
-      id: "gender",
+      id: "sex",
       label: "Giới tính",
     },
   ];
@@ -45,6 +46,21 @@ const Staffs = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    setAuthToken(accessToken);
+    axios
+      .get("http://localhost:5000/api/auth/getAllStaffs")
+      .then((res) => {
+        console.log(res.data.staffs)
+        setStaffs(res.data.staffs);
+        setOriginStaffs(res.data.staffs);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }, [selectedStaff]);
 
   return (
     <div className="main staffs">
@@ -130,7 +146,7 @@ const Staffs = () => {
                         >
                           {columns.map((column) => {
                             let value = row[column.id];
-                            if (column.id === "id") {
+                            if (column.id === "_id") {
                               value = value?.substr(value.length - 7);
                             }
 
