@@ -24,6 +24,30 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3M
   "password": "kkkkkk"
 }
 ###
+PUT  http://localhost:5000/api/auth/update/64630f7e68c4ec656abd1956
+Content-Type:  application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3MTljYzg2NjAyMTY2MDU5MjgzOGQiLCJpYXQiOjE2ODM0MzIxODh9.0pH2sC8WHRyJuJwEiCR5Hhu0RGhkF63eh9GRkA0UJzg
+
+{
+  "fullname": "truong",
+  "address": "Sai gon",
+  "sex": "male", 
+  "birthDay": "birday", 
+  "email": "email",
+  "telephoneNumber": "telephone",
+  "avatarUrl": "avaurl"
+}
+###
+DELETE  http://localhost:5000/api/auth/delete/64630f8268c4ec656abd1959
+Content-Type:  application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3MTljYzg2NjAyMTY2MDU5MjgzOGQiLCJpYXQiOjE2ODM0MzIxODh9.0pH2sC8WHRyJuJwEiCR5Hhu0RGhkF63eh9GRkA0UJzg
+
+###
+GET  http://localhost:5000/api/auth/search/012
+Content-Type:  application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3MTljYzg2NjAyMTY2MDU5MjgzOGQiLCJpYXQiOjE2ODM0MzIxODh9.0pH2sC8WHRyJuJwEiCR5Hhu0RGhkF63eh9GRkA0UJzg
+
+###
 POST http://localhost:5000/api/customer
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3MTljYzg2NjAyMTY2MDU5MjgzOGQiLCJpYXQiOjE2ODM0MzIxODh9.0pH2sC8WHRyJuJwEiCR5Hhu0RGhkF63eh9GRkA0UJzg

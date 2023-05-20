@@ -73,7 +73,7 @@ router.post('/login', async (req, res) => {
   }
 })
 
-router.get('/getAllStaffs',verifyToken, async (req, res) => {
+router.get('/getAllStaffs', verifyToken, async (req, res) => {
 
   try {
     const staffs = await Account.find({ role: "staff" }).select("-password")
@@ -88,10 +88,10 @@ router.get('/getAllStaffs',verifyToken, async (req, res) => {
   }
 })
 
-router.put('/update/:id',verifyToken, async (req, res) => {
+router.put('/update/:id', verifyToken, async (req, res) => {
 
   const { fullname, address, sex, birthDay, email, telephoneNumber, avatarUrl } = req.body
-  if ( !fullname || !address || !sex || !birthDay || !email || !telephoneNumber || !avatarUrl)
+  if (!fullname || !address || !sex || !birthDay || !email || !telephoneNumber || !avatarUrl)
     return res.status(400).json({ success: false, message: 'Không đủ thông tin cần thiết' })
 
   try {
@@ -109,17 +109,61 @@ router.put('/update/:id',verifyToken, async (req, res) => {
       accountUpdateContidion,
       updateAccount,
       { new: true }
-      )
+    )
 
-      if (!updateAccount)  
+    if (!updateAccount)
       return res
         .status(401)
         .json({
           success: false,
           message: 'Account Not Found Of User Not Authorized'
         })
-  
-        res.json({ success: true, message: 'Excellent Progress!', account: updateAccount })
+
+    res.json({ success: true, message: 'Excellent Progress!', account: updateAccount })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Kết nối mạng của bạn có thể có vấn đề' })
+  }
+})
+
+router.delete('/delete/:id', verifyToken, async (req, res) => {
+  try {
+    const accountDeleteContidion = { _id: req.params.id, user: req.userId }
+    deleteAccount = await Account.findByIdAndDelete(accountDeleteContidion)
+
+    if (!deleteAccount)
+      return res
+        .status(401)
+        .json({
+          success: false,
+          message: 'Account Not Found Of User Not Authorized'
+        })
+
+    res.json({ success: true, message: 'Delete Successfully!' })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Kết nối mạng của bạn có thể có vấn đề' })
+  }
+})
+
+router.get('/search/:query', verifyToken, async (req, res) => {
+  try {
+    const queryResult = await Account.find({
+      $or: [
+        { fullname: { $regex: req.params.query, $options: 'i' } },
+        { telephoneNumber: { $regex: req.params.query, $options: 'i' } },
+      ],
+    })
+    if (!queryResult)
+      return res
+        .status(401)
+        .json({
+          success: false,
+          message: 'User Not Authorized'
+        })
+    res.json({ success: true, message: 'Search successfully!', queryResult: queryResult })
 
   } catch (error) {
     console.log(error)
