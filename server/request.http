@@ -3,8 +3,15 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-  "account" : "staff2",
-  "password" : "kkkkkk"
+  "account" : "staff5",
+  "password" : "kkkkkk",
+  "fullname" : "truiongvip",
+  "address": "Sai gon",
+  "sex": "Nam",
+  "birthDay": "01/11",
+  "email" : "truong@gmail.com",
+  "telephoneNumber": "0987980987",
+  "avatarUrl": "https://vn.blog.kkday.com/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg"
 }
 ### 
 POST http://localhost:5000/api/auth/login
