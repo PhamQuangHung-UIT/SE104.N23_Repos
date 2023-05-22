@@ -10,11 +10,38 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import setAuthToken from "../../untils/setAuthToken";
+import ModalUnstyled from "@mui/core/ModalUnstyled";
+import AddStaff from "./AddStaff";
+import { styled } from "@mui/system";
+
+const StyledModal = styled(ModalUnstyled)`
+  position: fixed;
+  z-index: 1300;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Backdrop = styled("div")`
+  z-index: -1;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+`;
 
 const Staffs = () => {
   const [staffs, setStaffs] = useState([]);
   const [originStaffs, setOriginStaffs] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState();
+  const [showFormAddStaff, setShowFormAddStaff] = useState(false);
   const [searchText, setSearchText] = useState("");
   const componentRef = useRef();
   const [page, setPage] = React.useState(0);
@@ -64,6 +91,17 @@ const Staffs = () => {
 
   return (
     <div className="main staffs">
+      <StyledModal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={showFormAddStaff}
+        onClose={() => {
+          setShowFormAddStaff(false);
+        }}
+        BackdropComponent={Backdrop}
+      >
+        <AddStaff setShowFormAddStaff={setShowFormAddStaff} />
+      </StyledModal>
       <div className="search_name">
         <div className="search_name-wrapper">
           <input
@@ -82,9 +120,9 @@ const Staffs = () => {
       <div className="main_list">
         <div className="list_left">
           <div className="action-btn">
-            <button className="btn">
+            <button className="btn" onClick={() => setShowFormAddStaff(true)}>
               <i className="bx bx-plus action-btn-icon"></i>
-              Thêm nhân viên{" "}
+              Thêm nhân viên
             </button>
           </div>
         </div>
