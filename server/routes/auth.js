@@ -7,9 +7,10 @@ const Account = require('../models/Account')
 
 router.post('/register', async (req, res) => {
 
-  const { account, password } = req.body
-  if (!account || !password)
-    return res.status(400).json({ success: false, message: 'Thiếu tài khoản hoặc mật khẩu' })
+  const { account, password, fullname, address, sex, birthDay, email, telephoneNumber, avatarUrl } = req.body
+  
+  if (!account || !password || !fullname || !address || !sex || !birthDay || !email || !telephoneNumber || !avatarUrl)
+    return res.status(400).json({ success: false, message: 'Thiếu tài thông tin cần thiết' })
 
   if (password.length < 6 || account < 6)
     return res.status(400).json({ success: false, message: "Tài khoản và mật khẩu tối thiếu phải có 6 kí tự" })
@@ -20,7 +21,7 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Tài khoản đã tồn tại' })
 
     const hashedPassword = await argon2.hash(password)
-    const newUser = new Account({ account, password: hashedPassword })
+    const newUser = new Account({ account, password: hashedPassword, fullname, address, sex, birthDay, email, telephoneNumber, avatarUrl })
     await newUser.save()
 
     const accessToken = jwt.sign(
