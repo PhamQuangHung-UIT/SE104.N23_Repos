@@ -58,7 +58,6 @@ const Customers = () => {
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    console.log(accessToken);
     setAuthToken(accessToken);
     axios
       .get(`http://localhost:5000/api/customer/GetAllCustomer`)
