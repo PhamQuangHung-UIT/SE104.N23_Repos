@@ -22,7 +22,7 @@ const AccountSchema = new schema({
     type: String,
     default: '',
   },
-  birthDay: {
+  birthday: {
     type: String,
     default: '',
   },
