@@ -1,3 +1,4 @@
+import ModalUnstyled from "@mui/core/ModalUnstyled";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,12 +7,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import { styled } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { AiFillDelete } from "react-icons/ai";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Dialog from "../../components/dialog/Dialog";
 import setAuthToken from "../../untils/setAuthToken";
-import { styled } from "@mui/system";
-import ModalUnstyled from "@mui/core/ModalUnstyled";
 import AddStaff from "./AddStaff";
 
 const StyledModal = styled(ModalUnstyled)`
@@ -42,6 +45,7 @@ const Staffs = () => {
   const [originStaffs, setOriginStaffs] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState();
   const [showFormAddStaff, setShowFormAddStaff] = useState(false);
+  const [showDialogDelete, setShowDialogDelete] = useState(false);
   const [searchText, setSearchText] = useState("");
   const componentRef = useRef();
   const [page, setPage] = React.useState(0);
@@ -68,10 +72,28 @@ const Staffs = () => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+  const handleCloseDialog = () => {
+    setShowDialogDelete(false);
+  };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleDeleteStaff = () => {
+    const accessToken = localStorage.getItem("accessToken");
+    setAuthToken(accessToken);
+    axios
+      .delete(`http://localhost:5000/api/auth/delete/${selectedStaff._id}`)
+      .then((res) => {
+        handleCloseDialog();
+        toast("Xóa nhân viên thành công");
+        setSelectedStaff(null);
+      })
+      .catch(() => {
+        handleCloseDialog();
+        toast("Xóa nhân viên thất bại");
+      });
   };
 
   useEffect(() => {
@@ -80,17 +102,23 @@ const Staffs = () => {
     axios
       .get("http://localhost:5000/api/auth/getAllStaffs")
       .then((res) => {
-        console.log(res.data.staffs)
         setStaffs(res.data.staffs);
         setOriginStaffs(res.data.staffs);
       })
       .catch((err) => {
         console.log(err.response);
       });
-  }, [selectedStaff]);
+  }, [selectedStaff, showFormAddStaff]);
 
   return (
     <div className="main staffs">
+      <Dialog
+        title="Xoá nhân viên"
+        content={`Bạn có muốn xoá nhân viên: ${selectedStaff?.fullname} `}
+        open={showDialogDelete}
+        handleCancel={handleCloseDialog}
+        handleAction={handleDeleteStaff}
+      />
       <StyledModal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
@@ -165,6 +193,12 @@ const Staffs = () => {
                           "-webkit-linear-gradient(90deg, #fd501b, #ff861a)",
                       }}
                     ></TableCell>
+                    <TableCell
+                      style={{
+                        backgroundImage:
+                          "-webkit-linear-gradient(90deg, #fd501b, #ff861a)",
+                      }}
+                    ></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -226,6 +260,22 @@ const Staffs = () => {
                               }}
                               className="bx bx-trash hide-on-print"
                             ></i>
+                          </TableCell>
+                          <TableCell
+                            onClick={() => {
+                              console.log("delete");
+                              setSelectedStaff(row);
+                              setShowDialogDelete(true);
+                            }}
+                          >
+                            <AiFillDelete
+                              style={{
+                                fontSize: 18,
+                                color: "#fd501b",
+                                cursor: "pointer",
+                              }}
+                              className="hide-on-print"
+                            />
                           </TableCell>
                         </TableRow>
                       );
