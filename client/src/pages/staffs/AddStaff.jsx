@@ -1,15 +1,10 @@
-import React, { useState, useRef } from "react";
-import TextField from "@mui/material/TextField";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
-import useFormStaff from "./form_validate/useFormStaff";
-import validateStaff from "./form_validate/validateStaff";
 import axios from "axios";
+import React, { useRef, useState } from "react";
+import { GrClose } from "react-icons/gr";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { GrClose } from "react-icons/gr";
-
+import useFormStaff from "./form_validate/useFormStaff";
+import validateStaff from "./form_validate/validateStaff";
 const AddStaff = ({ setShowFormAddStaff }) => {
   const inputAvatarRef = useRef(null);
   const birthdayRef = useRef(null);
@@ -19,37 +14,40 @@ const AddStaff = ({ setShowFormAddStaff }) => {
     telephoneNumber: "",
     address: "",
     birthday: new Date(),
-    sex: "",
+    sex: "Nam",
     email: "",
     fullname: "",
+    avatarUrl: "kkk",
   });
 
   //Call API
   const submitForm = () => {
-    var formStaff = new FormData();
-    formStaff.append("account", staff.account);
-    formStaff.append("password", staff.password);
-    formStaff.append("fullname", staff.fullname);
-    formStaff.append("address", staff.address);
-    formStaff.append("birthday", staff.birthday);
-    formStaff.append("sex", staff.sex);
-    formStaff.append("email", staff.email);
-    formStaff.append("telephoneNumber", staff.telephoneNumber);
-    // formStaff.append("image", avatarUrl);
+    // var formStaff = new FormData();
+    // formStaff.append("account", staff.account);
+    // formStaff.append("password", staff.password);
+    // formStaff.append("fullname", staff.fullname);
+    // formStaff.append("address", staff.address);
+    // formStaff.append("birthday", staff.birthday);
+    // formStaff.append("sex", staff.sex);
+    // formStaff.append("email", staff.email);
+    // formStaff.append("telephoneNumber", staff.telephoneNumber);
+    // formStaff.append("avatarUrl", staff.avatarUrl);
+
+    const formStaff = {
+      account: staff.account,
+      password: staff.password,
+      fullname: staff.fullname,
+      address: staff.address,
+      birthday: staff.birthday,
+      sex: staff.sex,
+      email: staff.email,
+      telephoneNumber: staff.telephoneNumber,
+      avatarUrl: staff.avatarUrl,
+    };
 
     //post to API
     axios
-      .post(
-        "http://localhost:5000/api/auth/register",
-        formStaff,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "Access-Control-Allow-Origin": "*",
-          },
-        },
-        { timeout: 1000 }
-      )
+      .post("http://localhost:5000/api/auth/register", formStaff)
       .then((res) => {
         setShowFormAddStaff(false);
         toast("Thêm mới nhân viên thành công");
@@ -108,35 +106,7 @@ const AddStaff = ({ setShowFormAddStaff }) => {
             />
             <p className="form-error">{errors.account}</p>
           </div>
-          <div className="form-row">
-            <span>Ngày sinh</span>
-            <p className="form-error">{errors.birthday}</p>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                inputFormat="dd/MM/yyyy"
-                ref={birthdayRef}
-                views={["day", "month", "year"]}
-                value={staff.birthday}
-                name="birthday"
-                onChange={handleChangeBirthday}
-                renderInput={(params) => (
-                  <TextField
-                    open
-                    fullWidth
-                    size="small"
-                    style={{
-                      height: "100%",
-                      width: "206px",
-                      borderRadius: 5,
-                      zIndex: 4,
-                      border: "1px solid #4e5052",
-                    }}
-                    {...params}
-                  />
-                )}
-              />
-            </LocalizationProvider>
-          </div>
+
           <div className="form-row">
             <span>Mật khẩu</span>
             <input
