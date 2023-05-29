@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const ProductSchema = new Schema({
-  productName: {
+  name: {
     type: String,
     default: ''
   },
@@ -10,11 +10,19 @@ const ProductSchema = new Schema({
     type: String,
     default: ''
   },
+  cost: {
+    type: Number,
+    default: 0
+  },
   price: {
     type: Number,
-    default: ''
+    default: 0
   },
-  unitOfMeasure: {
+  img: {
+    type: String,
+    default: '',
+  },
+  unit: {
     type: String,
     default: ''
   },
