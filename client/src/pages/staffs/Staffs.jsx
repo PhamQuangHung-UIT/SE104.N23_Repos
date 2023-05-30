@@ -10,12 +10,13 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Dialog from "../../components/dialog/Dialog";
 import setAuthToken from "../../untils/setAuthToken";
 import AddStaff from "./AddStaff";
+import UpdateStaff from "./UpdateStaff";
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -45,6 +46,7 @@ const Staffs = () => {
   const [originStaffs, setOriginStaffs] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState();
   const [showFormAddStaff, setShowFormAddStaff] = useState(false);
+  const [showFormUpdateStaff, setShowFormUpdateStaff] = useState(false);
   const [showDialogDelete, setShowDialogDelete] = useState(false);
   const [searchText, setSearchText] = useState("");
   const componentRef = useRef();
@@ -108,7 +110,7 @@ const Staffs = () => {
       .catch((err) => {
         console.log(err.response);
       });
-  }, [selectedStaff, showFormAddStaff]);
+  }, [selectedStaff, showFormAddStaff, showFormUpdateStaff]);
 
   return (
     <div className="main staffs">
@@ -129,6 +131,21 @@ const Staffs = () => {
         BackdropComponent={Backdrop}
       >
         <AddStaff setShowFormAddStaff={setShowFormAddStaff} />
+      </StyledModal>
+      <StyledModal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={showFormUpdateStaff}
+        onClose={() => {
+          setShowFormUpdateStaff(false);
+        }}
+        BackdropComponent={Backdrop}
+      >
+        <UpdateStaff
+          staff={selectedStaff}
+          setStaff={setSelectedStaff}
+          setShowFormUpdateStaff={setShowFormUpdateStaff}
+        />
       </StyledModal>
       <div className="search_name">
         <div className="search_name-wrapper">
@@ -181,6 +198,12 @@ const Staffs = () => {
                         {column.label}
                       </TableCell>
                     ))}
+                    <TableCell
+                      style={{
+                        backgroundImage:
+                          "-webkit-linear-gradient(90deg, #fd501b, #ff861a)",
+                      }}
+                    ></TableCell>
                     <TableCell
                       style={{
                         backgroundImage:
@@ -260,6 +283,23 @@ const Staffs = () => {
                               }}
                               className="bx bx-trash hide-on-print"
                             ></i>
+                          </TableCell>
+                          <TableCell
+                            onClick={() => {
+                              console.log("update");
+                              setSelectedStaff(row);
+
+                              setShowFormUpdateStaff(true);
+                            }}
+                          >
+                            <AiFillEdit
+                              style={{
+                                fontSize: 18,
+                                color: "#005059",
+                                cursor: "pointer",
+                              }}
+                              className="hide-on-print"
+                            />
                           </TableCell>
                           <TableCell
                             onClick={() => {
