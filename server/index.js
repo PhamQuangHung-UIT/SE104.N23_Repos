@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 
 const authRouter = require('./routes/auth')
 const customerRouter = require('./routes/customer')
+const productRouter = require('./routes/product')
 
 const cors = require('cors')
 
@@ -30,6 +31,6 @@ app.use(cors({
 app.use(express.json())
 app.use('/api/auth', authRouter)
 app.use('/api/customer', customerRouter)
-
+app.use('/api/product', productRouter)
 
 app.listen(5000, () => console.log(`server started on port 5000`))

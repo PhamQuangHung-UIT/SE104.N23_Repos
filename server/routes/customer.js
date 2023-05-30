@@ -63,15 +63,15 @@ router.put('/:id', verifyToken, async (req, res) => {
 router.delete('/:id', verifyToken, async (req, res) => {
   try {
     const customerDeleteCondition = { _id: req.params.id }
-    let updateCustomer = await Customer.findByIdAndDelete(customerDeleteCondition)
+    let deleteCustomer = await Customer.findByIdAndDelete(customerDeleteCondition)
 
-    if (!updateCustomer) {
+    if (!deleteCustomer) {
       return res
-        .json(401)
+        .status(401)
         .json({ success: false, message: 'không tìm thấy khách hàng cần xóa hoặc tài khoản chưa xác thực' })
     }
 
-    res.json({ success: true, message: 'Xóa khách hàng thành công' })
+    res.status(200).json({ success: true, message: 'Xóa khách hàng thành công' })
 
   } catch (error) {
     console.log(error)
