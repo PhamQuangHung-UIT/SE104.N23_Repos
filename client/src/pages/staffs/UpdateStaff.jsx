@@ -12,19 +12,18 @@ const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
   const submitForm = () => {
     const formStaff = {
       account: staff.account,
-      password: staff.password,
+      password: staff.account,
       fullname: staff.fullname,
       address: staff.address,
-      birthday: staff.birthday,
       sex: staff.sex,
       email: staff.email,
       telephoneNumber: staff.telephoneNumber,
-      avatarUrl: staff.avatarUrl,
+      avatarUrl: staff.avatarUrl
     };
 
     //post to API
     axios
-      .put("http://localhost:5000/api/auth/update/", formStaff)
+      .put(`http://localhost:5000/api/auth/update/${staff._id}`, formStaff)
       .then((res) => {
         setShowFormUpdateStaff(false);
         toast("Cập nhật nhân viên thành công");

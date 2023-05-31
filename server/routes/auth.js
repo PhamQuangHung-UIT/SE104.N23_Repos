@@ -8,12 +8,12 @@ const Account = require('../models/Account')
 router.post('/register', async (req, res) => {
 
   const { account, password, fullname, address, sex, email, telephoneNumber, avatarUrl } = req.body
-  
+
   if (!account || !password || !fullname || !address || !sex || !email || !telephoneNumber || !avatarUrl)
     return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
 
-  if (password.length < 6 || account < 6)
-    return res.status(400).json({ success: false, message: "Tài khoản và mật khẩu tối thiếu phải có 6 kí tự" })
+  if (password.length < 6)
+    return res.status(400).json({ success: false, message: "Mật khẩu tối thiếu phải có 6 kí tự" })
 
   try {
     const existingAccount = await Account.findOne({ account: account })
@@ -91,19 +91,22 @@ router.get('/getAllStaffs', verifyToken, async (req, res) => {
 
 router.put('/update/:id', verifyToken, async (req, res) => {
 
-  const { fullname, address, sex, birthDay, email, telephoneNumber, avatarUrl } = req.body
-  if (!fullname || !address || !sex || !birthDay || !email || !telephoneNumber || !avatarUrl)
-    return res.status(400).json({ success: false, message: 'Không đủ thông tin cần thiết' })
+  const { account, password, fullname, address, sex, email, telephoneNumber, avatarUrl } = req.body
+
+  if (!account || !password || !fullname || !address || !sex || !email || !telephoneNumber || !avatarUrl)
+    return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
 
   try {
+    const hashedPassword = await argon2.hash(password)
     let updateAccount = {
-      fullname: fullname,
-      address: address,
-      sex: sex,
-      birthDay: birthDay,
-      email: email,
-      telephoneNumber: telephoneNumber,
-      avatarUrl: avatarUrl
+      account,
+      password: hashedPassword,
+      fullname,
+      address,
+      sex,
+      email,
+      telephoneNumber,
+      avatarUrl
     }
     const accountUpdateContidion = { _id: req.params.id, user: req.userId }
     updateAccount = await Account.findByIdAndUpdate(
