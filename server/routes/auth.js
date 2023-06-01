@@ -91,16 +91,14 @@ router.get('/getAllStaffs', verifyToken, async (req, res) => {
 
 router.put('/update/:id', verifyToken, async (req, res) => {
 
-  const { account, password, fullname, address, sex, email, telephoneNumber, avatarUrl } = req.body
+  const { account,  fullname, address, sex, email, telephoneNumber, avatarUrl } = req.body
 
-  if (!account || !password || !fullname || !address || !sex || !email || !telephoneNumber || !avatarUrl)
+  if (!account  || !fullname || !address || !sex || !email || !telephoneNumber || !avatarUrl)
     return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
 
   try {
-    const hashedPassword = await argon2.hash(password)
     let updateAccount = {
       account,
-      password: hashedPassword,
       fullname,
       address,
       sex,
