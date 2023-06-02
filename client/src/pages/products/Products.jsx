@@ -6,20 +6,21 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import React, { useRef, useState } from "react";
-import { useReactToPrint } from "react-to-print";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import setAuthToken from "../../untils/setAuthToken";
 
 const columns = [
-  { id: "id", label: "Mã sản phẩm" },
+  { id: "_id", label: "Mã sản phẩm" },
   { id: "name", label: "Tên sản phẩm" },
   {
-    id: "costPrice",
+    id: "cost",
     label: "Giá vốn (vnđ)",
 
     format: (value) => `${value.toLocaleString("en-US")}`,
   },
   {
-    id: "salePrice",
+    id: "price",
     label: "Giá bán (vnđ)",
 
     format: (value) => `${value.toLocaleString("en-US")}`,
@@ -30,9 +31,26 @@ const Products = () => {
   const componentRef = useRef();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [originProducts, setOriginProducts] = useState([]);
+  const [rerenderProducts, setRerenderProducts] = useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(6);
   const [searchText, setSearchText] = useState("");
+
+  //get product from API
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    setAuthToken(accessToken);
+    axios
+      .get("http://localhost:5000/api/product/products")
+      .then((res) => {
+        setProducts(res.data.products);
+        setOriginProducts(res.data.products);
+      })
+      .catch((err) => {
+        console.log(err.res);
+      });
+  }, [ rerenderProducts]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -145,7 +163,7 @@ const Products = () => {
                           >
                             {columns.map((column) => {
                               let value = row[column.id];
-                              if (column.id === "id") {
+                              if (column.id === "_id") {
                                 value = value?.substr(value.length - 7);
                               }
 
