@@ -10,11 +10,19 @@ const ProductSchema = new Schema({
     type: String,
     default: ''
   },
-  cost: {
+  originPrice: {
     type: Number,
     default: 0
   },
-  price: {
+  costPrice: {
+    type: Number,
+    default: 0
+  },
+  salePrice: {
+    type: Number,
+    default: 0,
+  },
+  discount: {
     type: Number,
     default: 0
   },

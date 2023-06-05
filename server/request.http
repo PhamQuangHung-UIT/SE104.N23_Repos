@@ -18,7 +18,7 @@ POST http://localhost:5000/api/auth/login
 Content-Type:  application/json
 
 {
-  "account": "staff1",
+  "account": "staff2",
   "password": "kkkkkk"
 }
 ###
@@ -91,8 +91,10 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3M
 {
   "name": "Hồng Ngọc",
   "amount": 20,
-  "cost": 5000000,
-  "price": 1000000,
+  "originPrice": 1000000,
+  "costPrice": 5000,
+  "salePrice": 5000,
+  "discount": 20,
   "img": "https://www.tierra.vn/files/360x/hong-ngoc-1-q2fmkth5tI.jpg",
   "unit": "viên"
 } 
@@ -104,8 +106,10 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3M
 {
   "name": "Trân Châu",
   "amount": 10,
-  "cost": 1000000,
-  "price": 2000000,
+  "originPrice": 1000000,
+  "costPrice": 5000,
+  "salePrice": 5000,
+  "discount": 20,
   "img": "https://vangcuulong.vn/multidata/ban-biet-gi-ve-ngoc-trai-1.jpg",
   "unit": "viên"
 } 
