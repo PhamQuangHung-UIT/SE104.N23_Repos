@@ -9,6 +9,8 @@ import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import setAuthToken from "../../untils/setAuthToken";
+import ProductsNavbar from "./products_action/ProductsAction";
+import { useReactToPrint } from "react-to-print";
 
 const columns = [
   { id: "_id", label: "Mã sản phẩm" },
@@ -36,6 +38,9 @@ const Products = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(6);
   const [searchText, setSearchText] = useState("");
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   //get product from API
   useEffect(() => {
@@ -83,21 +88,10 @@ const Products = () => {
 
       <div className="main_list">
         <div className="list_left">
-          <div className="card">
-            <label className="card_select-label">Thời trang:</label>
-            <select
-              className="card_select"
-            >
-              <option value="all">Tất cả</option>
-              {categories.map((category, index) => {
-                return (
-                  <option key={index} value={category.id}>
-                    {category.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+          <ProductsNavbar
+            handlePrint={handlePrint}
+            setRerenderProducts={setRerenderProducts}
+          />
         </div>
         <div className="list_right">
           <div>
