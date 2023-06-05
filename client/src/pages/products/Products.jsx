@@ -11,6 +11,33 @@ import React, { useEffect, useRef, useState } from "react";
 import setAuthToken from "../../untils/setAuthToken";
 import ProductsNavbar from "./products_action/ProductsAction";
 import { useReactToPrint } from "react-to-print";
+import { styled } from "@mui/system";
+import ModalUnstyled from "@mui/core/ModalUnstyled";
+import UpdateProduct from "../products/updateProduct/UpdateProduct";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+
+const StyledModal = styled(ModalUnstyled)`
+  position: fixed;
+  z-index: 1300;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Backdrop = styled("div")`
+  z-index: -1;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+`;
 
 const columns = [
   { id: "_id", label: "Mã sản phẩm" },
@@ -36,8 +63,12 @@ const Products = () => {
   const [originProducts, setOriginProducts] = useState([]);
   const [rerenderProducts, setRerenderProducts] = useState(false);
   const [page, setPage] = React.useState(0);
+
+  const [selectedProduct, setSelectedProduct] = useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(6);
   const [searchText, setSearchText] = useState("");
+
+  const [showFormUpdateProduct, setShowFormUpdateProduct] = useState(false);
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
@@ -55,7 +86,7 @@ const Products = () => {
       .catch((err) => {
         console.log(err.res);
       });
-  }, [ rerenderProducts]);
+  }, [ rerenderProducts,showFormUpdateProduct,selectedProduct]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -68,6 +99,22 @@ const Products = () => {
   
   return (
     <div className="main products">
+      <StyledModal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={showFormUpdateProduct}
+        onClose={() => {
+          setShowFormUpdateProduct(false);
+        }}
+        BackdropComponent={Backdrop}
+      >
+        <UpdateProduct
+          product={selectedProduct}
+          setShowFormUpdateProduct={setShowFormUpdateProduct}
+          setProduct={setSelectedProduct}
+        />
+      </StyledModal>
+
       <div className="search_name">
         <div className="search_name-wrapper">
           <input
@@ -172,7 +219,23 @@ const Products = () => {
                                 </TableCell>
                               );
                             })}
-                            
+                            <TableCell
+                              onClick={() => {
+                                console.log("update");
+                                setSelectedProduct(row);
+
+                                setShowFormUpdateProduct(true);
+                              }}
+                            >
+                              <AiFillEdit
+                              style={{
+                                fontSize: 18,
+                                color: "#005059",
+                                cursor: "pointer",
+                              }}
+                              className="hide-on-print"
+                            />
+                            </TableCell>
                           </TableRow>
                         );
                       })}

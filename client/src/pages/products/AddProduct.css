@@ -69,21 +69,6 @@
   align-items: center;
   margin-right: 50px;
 }
-.add_product-btn-save {
-  width: 100px;
-  height: 40px;
-  margin-right: 20px;
-  border-radius: 5px;
-  color: white;
-  background-color: #4cb050;
-}
-.add_product-btn-cancel {
-  width: 100px;
-  height: 40px;
-  border-radius: 5px;
-  color: white;
-  background-color: #898c8d;
-}
 .add_product-form-list-size {
   display: flex;
   align-items: center;
