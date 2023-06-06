@@ -12,10 +12,13 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   const [avatar, setAvatar] = useState();
   const [product, setProduct] = useState({
     name: "",
+    amount: 0,
     costPrice: 0,
     salePrice: 0,
     originPrice: 0,
     discount: 0,
+    img: '',
+    unit: ''
   });
 
   const handleIncreaseDiscount = (e) => {
@@ -61,7 +64,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
 
     //post to API
     axios
-      .post("http://localhost:5000/api/product", formProduct, {})
+      .post("http://localhost:5000/api/product", formProduct)
       .then((res) => {
         console.log(res.data);
         setProductId(res.data.id);
