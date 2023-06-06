@@ -95,8 +95,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3M
   "costPrice": 5000,
   "salePrice": 5000,
   "discount": 20,
-  "img": "https://www.tierra.vn/files/360x/hong-ngoc-1-q2fmkth5tI.jpg",
-  "unit": "viên"
+  "img": "https://www.tierra.vn/files/360x/hong-ngoc-1-q2fmkth5tI.jpg"
 } 
 ###
 PUT http://localhost:5000/api/product/647431fc0a7f277d8dc5c2b5
@@ -110,8 +109,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3M
   "costPrice": 5000,
   "salePrice": 5000,
   "discount": 20,
-  "img": "https://vangcuulong.vn/multidata/ban-biet-gi-ve-ngoc-trai-1.jpg",
-  "unit": "viên"
+  "img": "https://vangcuulong.vn/multidata/ban-biet-gi-ve-ngoc-trai-1.jpg"
 } 
 ###
 GET http://localhost:5000/api/product/products

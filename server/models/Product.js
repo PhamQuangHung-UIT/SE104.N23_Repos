@@ -30,10 +30,6 @@ const ProductSchema = new Schema({
     type: String,
     default: '',
   },
-  unit: {
-    type: String,
-    default: ''
-  },
   createAt: {
     type: Date,
     default: Date.now

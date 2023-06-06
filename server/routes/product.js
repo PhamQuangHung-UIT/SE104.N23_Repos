@@ -5,9 +5,9 @@ const verifyToken = require('../middleware/auth')
 const Product = require('../models/Product')
 
 router.post('/', verifyToken, async (req, res) => {
-  const { name, amount, originPrice, costPrice, salePrice, discount, img, unit } = req.body
+  const { name, amount, originPrice, costPrice, salePrice, discount, img } = req.body
 
-  if (!name || !amount || !originPrice || !costPrice || !salePrice || !discount || !img || !unit)
+  if (!name || !amount || !originPrice || !costPrice || !salePrice || !discount || !img)
   return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
   try {
     const newProduct = new Product({
@@ -17,8 +17,7 @@ router.post('/', verifyToken, async (req, res) => {
       costPrice,
       salePrice,
       discount,
-      img,
-      unit
+      img
     })
 
     await newProduct.save()
@@ -32,9 +31,9 @@ router.post('/', verifyToken, async (req, res) => {
 })
 
 router.put('/:id', verifyToken, async (req, res) => {
-  const { name, amount, originPrice, costPrice, salePrice, discount, img, unit } = req.body
+  const { name, amount, originPrice, costPrice, salePrice, discount, img } = req.body
 
-  if (!name || !amount || !originPrice || !costPrice || !salePrice || !discount || !img || !unit)
+  if (!name || !amount || !originPrice || !costPrice || !salePrice || !discount || !img )
     return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
   try {
     let updateProduct = {
@@ -44,8 +43,7 @@ router.put('/:id', verifyToken, async (req, res) => {
       costPrice,
       salePrice,
       discount,
-      img,
-      unit
+      img
     }
 
     updateProduct = await Product.findByIdAndUpdate({ _id: req.params.id }, updateProduct, { new: true })
