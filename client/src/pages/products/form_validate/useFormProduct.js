@@ -15,7 +15,8 @@ const useFormProduct = (callback, product, setProduct, validate) => {
       name === "costPrice" ||
       name === "salePrice" ||
       name === "discount" ||
-      name === "originPrice"
+      name === "originPrice" ||
+      name === "amount"
     ) {
       value = Math.floor(value);
     }

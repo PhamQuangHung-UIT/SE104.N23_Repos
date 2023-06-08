@@ -9,7 +9,7 @@ import validateProduct from "./form_validate/validateProduct";
 const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   const inputAvatarRef = useRef(null);
   const [productId, setProductId] = useState();
-  const [avatar, setAvatar] = useState();
+  // const [avatar, setAvatar] = useState();
   const [product, setProduct] = useState({
     name: "",
     amount: 0,
@@ -18,7 +18,6 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
     originPrice: 0,
     discount: 0,
     img: '',
-    unit: ''
   });
 
   const handleIncreaseDiscount = (e) => {
@@ -55,6 +54,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   const submitForm = async () => {
     const formProduct = new FormData();
     formProduct.append("name", product.name);
+    formProduct.append("amount", product.amount);
     formProduct.append("costPrice", product.costPrice);
     formProduct.append("discount", product.discount);
     formProduct.append("salePrice", product.salePrice);
@@ -120,6 +120,17 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
               onChange={handleChange}
             />
             <p className="form-error">{errors.costPrice}</p>
+          </div>
+          <div className="form-row">
+            <span>Số lượng</span>
+            <input
+              type="number"
+              pattern="[0-9]*"
+              name="amount"
+              value={product.amount}
+              onChange={handleChange}
+            />
+            <p className="form-error">{errors.amount}</p>
           </div>
           <div className="form-row">
             <span>Giảm giá (%)</span>
