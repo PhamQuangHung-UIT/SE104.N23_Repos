@@ -7,7 +7,7 @@ const Product = require('../models/Product')
 router.post('/', verifyToken, async (req, res) => {
   const { name, amount, originPrice, costPrice, salePrice, discount, img } = req.body
 
-  if (!name || !amount || !originPrice || !costPrice || !salePrice || !discount || !img)
+  if (!name || !amount || !originPrice || !costPrice || !salePrice || !discount )
   return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
   try {
     const newProduct = new Product({
@@ -33,7 +33,7 @@ router.post('/', verifyToken, async (req, res) => {
 router.put('/:id', verifyToken, async (req, res) => {
   const { name, amount, originPrice, costPrice, salePrice, discount, img } = req.body
 
-  if (!name || !amount || !originPrice || !costPrice || !salePrice || !discount || !img )
+  if (!name || !amount || !originPrice || !costPrice || !salePrice || !discount)
     return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
   try {
     let updateProduct = {
