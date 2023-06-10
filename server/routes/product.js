@@ -8,8 +8,18 @@ router.post('/', verifyToken, async (req, res) => {
   const { name, amount, originPrice, costPrice, salePrice, discount, img } = req.body
   console.log({ name, amount, originPrice, costPrice, salePrice, discount, img })
 
-  if (!name || parseInt(amount)<0 || parseFloat(originPrice)<0 || parseFloat(costPrice)<0 || parseFloat(salePrice)<0 || parseFloat(discount)<0 )
-  return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
+  if (!name
+    || parseInt(amount) < 0
+    || parseFloat(originPrice) < 0
+    || parseFloat(costPrice) < 0
+    || parseFloat(salePrice) < 0
+    || parseFloat(discount) < 0
+  )
+    return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
+    
+  const exitstingProduct = await Product.findOne({ name: name })
+  if (exitstingProduct) return res.status(400).json({ success: false, message: "sản phẩm đã tồn tại"})
+
   try {
     const newProduct = new Product({
       name,
