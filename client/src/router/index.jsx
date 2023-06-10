@@ -9,6 +9,7 @@ import Staffs from "../pages/staffs/Staffs";
 import Login from "../pages/login/Login";
 import PrivateRoute from "./PrivateRoute";
 import HomeLayout from "../components/layout/HomeLayout";
+import Sales from "../pages/sales/Sales";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <DashBoard />,
+      },
+      {
+        path: "/sales",
+        element: <Sales/>
       },
       {
         path: "customers",

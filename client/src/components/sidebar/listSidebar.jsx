@@ -3,12 +3,19 @@ import { HiUsers, HiUserGroup } from "react-icons/hi";
 import { BsFillBox2Fill } from "react-icons/bs";
 import { RiAccountCircleFill } from "react-icons/ri";
 import {FaMoneyBill} from "react-icons/fa";
+import {MdSell} from "react-icons/md";
 
 export const listSidebar = [
   {
     display_name: "Trang chủ",
     route: "/",
     icon: AiFillHome,
+    permissionUser: [0, 1, 2],
+  },
+  {
+    display_name: "Bán hàng",
+    route: "/sales",
+    icon: MdSell,
     permissionUser: [0, 1, 2],
   },
   {
