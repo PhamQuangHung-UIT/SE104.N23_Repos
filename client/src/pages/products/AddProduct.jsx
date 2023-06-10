@@ -17,7 +17,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
     salePrice: 0,
     originPrice: 0,
     discount: 0,
-    img: '',
+    img: "",
   });
 
   const handleIncreaseDiscount = (e) => {
@@ -52,14 +52,14 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
 
   //Submit form
   const submitForm = async () => {
-    const formProduct = new FormData();
-    formProduct.append("name", product.name);
-    formProduct.append("amount", product.amount);
-    formProduct.append("costPrice", product.costPrice);
-    formProduct.append("discount", product.discount);
-    formProduct.append("salePrice", product.salePrice);
-    formProduct.append("originPrice", product.originPrice);
-
+    const formProduct = {
+      name: product.name,
+      amount: product.amount,
+      costPrice: product.costPrice,
+      discount: product.discount,
+      salePrice: product.salePrice,
+      originPrice: product.originPrice,
+    };
     // formProduct.append("image", avatar);
 
     //post to API
@@ -101,15 +101,24 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
       </div>
       <div className="form-body">
         <div className="form">
-          <div className="form-row">
-            <span>Mã sản phẩm</span>
-            <input
-              value={productId}
-              type="text"
-              placeholder="Mã tự động"
-              readOnly
-            />
+        <div className="form-row">
+            <span>Tên sản phẩm</span>
+            <input name="name" value={product.name} onChange={handleChange} />
+            <p className="form-error">{errors.name}</p>
           </div>
+          <div className="form-row">
+            <span>Giá bán khi sale (đồng)</span>
+            <input
+              type="text"
+              pattern="[0-9]*"
+              name="salePrice"
+              className="salePrice"
+              value={product.salePrice}
+              onChange={handleChange}
+            />
+            <p className="form-error">{errors.salePrice}</p>
+          </div>
+          
           <div className="form-row">
             <span>Giá bán (đồng)</span>
             <input
@@ -152,24 +161,6 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
               ></i>
             </div>
             <p className="form-error">{errors.countInStock}</p>
-          </div>
-
-          <div className="form-row">
-            <span>Tên sản phẩm</span>
-            <input name="name" value={product.name} onChange={handleChange} />
-            <p className="form-error">{errors.name}</p>
-          </div>
-          <div className="form-row">
-            <span>Giá bán khi sale (đồng)</span>
-            <input
-              type="text"
-              pattern="[0-9]*"
-              name="salePrice"
-              className="salePrice"
-              value={product.salePrice}
-              onChange={handleChange}
-            />
-            <p className="form-error">{errors.salePrice}</p>
           </div>
 
           <div className="form-row">

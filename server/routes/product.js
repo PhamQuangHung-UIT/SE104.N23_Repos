@@ -6,8 +6,9 @@ const Product = require('../models/Product')
 
 router.post('/', verifyToken, async (req, res) => {
   const { name, amount, originPrice, costPrice, salePrice, discount, img } = req.body
+  console.log({ name, amount, originPrice, costPrice, salePrice, discount, img })
 
-  if (!name || !amount || !originPrice || !costPrice || !salePrice || !discount )
+  if (!name || parseInt(amount)<0 || parseFloat(originPrice)<0 || parseFloat(costPrice)<0 || parseFloat(salePrice)<0 || parseFloat(discount)<0 )
   return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
   try {
     const newProduct = new Product({
