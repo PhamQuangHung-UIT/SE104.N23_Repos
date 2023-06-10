@@ -101,7 +101,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
       </div>
       <div className="form-body">
         <div className="form">
-        <div className="form-row">
+          <div className="form-row">
             <span>Tên sản phẩm</span>
             <input name="name" value={product.name} onChange={handleChange} />
             <p className="form-error">{errors.name}</p>
@@ -118,7 +118,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
             />
             <p className="form-error">{errors.salePrice}</p>
           </div>
-          
+
           <div className="form-row">
             <span>Giá bán (đồng)</span>
             <input
@@ -162,7 +162,6 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
             </div>
             <p className="form-error">{errors.countInStock}</p>
           </div>
-
           <div className="form-row">
             <span>Giá nhập hàng</span>
             <input

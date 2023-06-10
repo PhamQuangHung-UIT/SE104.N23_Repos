@@ -45,13 +45,13 @@ const columns = [
   { id: "_id", label: "Mã sản phẩm" },
   { id: "name", label: "Tên sản phẩm" },
   {
-    id: "cost",
+    id: "originPrice",
     label: "Giá vốn (vnđ)",
 
     format: (value) => `${value.toLocaleString("en-US")}`,
   },
   {
-    id: "price",
+    id: "salePrice",
     label: "Giá bán (vnđ)",
 
     format: (value) => `${value.toLocaleString("en-US")}`,
@@ -65,11 +65,9 @@ const Products = () => {
   const [originProducts, setOriginProducts] = useState([]);
   const [rerenderProducts, setRerenderProducts] = useState(false);
   const [page, setPage] = React.useState(0);
-
   const [selectedProduct, setSelectedProduct] = useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(6);
   const [searchText, setSearchText] = useState("");
-
   const [showFormUpdateProduct, setShowFormUpdateProduct] = useState(false);
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,

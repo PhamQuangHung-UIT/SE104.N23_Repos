@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import "./updateProduct.css";
 import axios from "axios";
+import "./updateProduct.css";
 
-import validateProduct from "../form_validate/validateProduct";
-import useFormProduct from "../form_validate/useFormProduct";
 import { toast } from "react-toastify";
+import useFormProduct from "../form_validate/useFormProduct";
+import validateProduct from "../form_validate/validateProduct";
 
 const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
   const inputAvatarRef = useRef(null);
@@ -61,21 +61,18 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
     console.log("Hello from Test");
     console.log(product);
     // console.log(categoryId);
-    const formProduct = new FormData();
-    formProduct.append("name", product.name);
-    formProduct.append("costPrice", product.costPrice);
-    formProduct.append("discount", product.discount);
-    formProduct.append("salePrice", product.salePrice);
-    formProduct.append("originPrice", product.originPrice);
-
-    formProduct.append("image", avatar);
+    const formProduct = {
+      name: product.name,
+      amount: product.amount,
+      costPrice: product.costPrice,
+      discount: product.discount,
+      salePrice: product.salePrice,
+      originPrice: product.originPrice,
+    };
 
     //post to API
     axios
-      .put(
-        `http://localhost:5000/api/product/${product._id}`,
-        formProduct,
-      )
+      .put(`http://localhost:5000/api/product/${product._id}`, formProduct)
       .then((res) => {
         toast("Cập nhật sản phẩm thành công");
       })
@@ -112,16 +109,24 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
       <div className="form-body">
         <div className="form">
           <div className="form-row">
-            <span>Mã sản phẩm</span>
-            <input
-              type="text"
-              placeholder="Mã tự động"
-              value={product.id}
-              readOnly
-            />
+            <span>Tên sản phẩm</span>
+            <input name="name" value={product.name} onChange={handleChange} />
+            <p className="form-error">{errors.name}</p>
           </div>
           <div className="form-row">
-            <span>Giá vốn (đồng)</span>
+            <span>Giá bán khi sale (đồng)</span>
+            <input
+              type="text"
+              pattern="[0-9]*"
+              name="salePrice"
+              className="salePrice"
+              value={product.salePrice}
+              onChange={handleChange}
+            />
+            <p className="form-error">{errors.salePrice}</p>
+          </div>
+          <div className="form-row">
+            <span>Giá bán (đồng)</span>
             <input
               type="text"
               pattern="[0-9]*"
@@ -132,6 +137,17 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
             <p className="form-error">{errors.costPrice}</p>
           </div>
           <div className="form-row">
+            <span>Số lượng</span>
+            <input
+              type="number"
+              pattern="[0-9]*"
+              name="amount"
+              value={product.amount}
+              onChange={handleChange}
+            />
+            <p className="form-error">{errors.amount}</p>
+          </div>
+          <div className="form-row">
             <span>Giảm giá (%)</span>
             <input
               name="discount"
@@ -140,7 +156,6 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
               value={product.discount}
               onChange={handleChange}
             />
-
             <div className="discount_type">
               <i
                 onClick={handleIncreaseDiscount}
@@ -153,27 +168,8 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
             </div>
             <p className="form-error">{errors.countInStock}</p>
           </div>
-
           <div className="form-row">
-            <span>Tên sản phẩm</span>
-            <input name="name" value={product.name} onChange={handleChange} />
-            <p className="form-error">{errors.name}</p>
-          </div>
-          <div className="form-row">
-            <span>Giá bán (đồng)</span>
-            <input
-              type="text"
-              pattern="[0-9]*"
-              name="salePrice"
-              className="salePrice"
-              value={product.salePrice}
-              onChange={handleChange}
-            />
-            <p className="form-error">{errors.salePrice}</p>
-          </div>
-
-          <div className="form-row">
-            <span>Giá nhập</span>
+            <span>Giá nhập hàng</span>
             <input
               pattern="[0-9]*"
               name="originPrice"
@@ -185,7 +181,7 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
           </div>
         </div>
       </div>
-      <div className="form-images">
+      {/* <div className="form-images">
         <div className="form-image">
           <input
             ref={inputAvatarRef}
@@ -203,7 +199,7 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
             alt=""
           />
         </div>
-      </div>
+      </div> */}
       <div className="form-btn-row">
         <button onClick={handleSubmit} className="form-btn-save">
           Lưu

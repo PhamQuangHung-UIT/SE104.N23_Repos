@@ -102,9 +102,9 @@ const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
             <span>Giới tính</span>
 
             <select
-              value={staff.gender}
+              value={staff.sex}
               className="form-select"
-              name="gender"
+              name="sex"
               onChange={handleChange}
             >
               <option value="Nam">Nam</option>
