@@ -15,6 +15,8 @@ import { styled } from "@mui/system";
 import ModalUnstyled from "@mui/core/ModalUnstyled";
 import UpdateProduct from "../products/updateProduct/UpdateProduct";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import Dialog from "../../components/dialog/Dialog";
+import { toast } from "react-toastify";
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -59,7 +61,7 @@ const columns = [
 const Products = () => {
   const componentRef = useRef();
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [showDialogDelete, setShowDialogDelete] = useState(false);
   const [originProducts, setOriginProducts] = useState([]);
   const [rerenderProducts, setRerenderProducts] = useState(false);
   const [page, setPage] = React.useState(0);
@@ -72,6 +74,9 @@ const Products = () => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+  const handleCloseDialog = () => {
+    setShowDialogDelete(false);
+  };
 
   //get product from API
   useEffect(() => {
@@ -96,9 +101,26 @@ const Products = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const handleDeleteProduct = () => {
+    axios
+      .delete(`http://localhost:5000/api/product/${selectedProduct._id}`)
+      .then((res) => {
+        handleCloseDialog();
+        toast("Xoá sản phẩm thành công");
+        setSelectedProduct(null);
+      })
+      .catch("Lỗi, xin hãy thử lại sau");
+  };
   
   return (
     <div className="main products">
+      <Dialog
+        title="Xoá sản phẩm"
+        content={`Bạn có muốn xoá sản phẩm: ${selectedProduct?.name} `}
+        open={showDialogDelete}
+        handleCancel={handleCloseDialog}
+        handleAction={handleDeleteProduct}
+      />
       <StyledModal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
@@ -231,6 +253,23 @@ const Products = () => {
                               style={{
                                 fontSize: 18,
                                 color: "#005059",
+                                cursor: "pointer",
+                              }}
+                              className="hide-on-print"
+                            />
+                            </TableCell>
+                            <TableCell
+                              onClick={() => {
+                                console.log("delete");
+
+                                setSelectedProduct(row);
+                                setShowDialogDelete(true);
+                              }}
+                            >
+                              <AiFillDelete
+                              style={{
+                                fontSize: 18,
+                                color: "#fd501b",
                                 cursor: "pointer",
                               }}
                               className="hide-on-print"
