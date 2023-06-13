@@ -1,0 +1,71 @@
+const express = require('express')
+const router = express.Router()
+const verifyToken = require('../middleware/auth')
+const Sale = require('../models/Sale')
+
+router.post('/', verifyToken, async (req, res) => {
+  const { Account, Customer, subTotal, discount, orderTotal, point, orderDetails } = req.body
+
+  if (!Account || !Customer || !subTotal || !discount || !orderTotal || !point || !orderDetails)
+    return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
+
+  try {
+    const newSaleBill = new Sale({
+      Account,
+      Customer,
+      subTotal,
+      discount,
+      orderTotal,
+      point,
+      orderDetails,
+    })
+
+    await newSaleBill.save()
+
+    res.status(200).json({ success: true, message: 'Tạo biên lai thành công', saleBill: newSaleBill })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Mạng của bạn có vấn đề', error: error })
+  }
+})
+
+router.get('/:id', verifyToken, async (req, res) => {
+  try {
+    const saleBills = await Sale
+      .find({ CustomerId: req.params.id })
+      .populate("Customer")
+      .populate("Account")
+      .populate('orderDetails.product')
+
+    if (!saleBills) {
+      return res.status(401).json({ success: false, message: "Tài khoản chưa xác thực" })
+    }
+
+    res.json({ success: true, message: 'Lấy biên lai thành công', saleBill: saleBills })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Mạng của bạn có vấn đề' })
+  }
+})
+
+router.delete('/:id', verifyToken, async (req, res) => {
+  try {
+    let saleBill = await Sale.findByIdAndDelete({ _id: req.params.id })
+
+    if (!saleBill) {
+      return res
+        .status(401)
+        .json({ success: false, message: 'không tìm thấy biên lai cần xóa' })
+    }
+
+    res.json({ success: true, message: 'Xóa biên lai thành công' })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Mạng của bạn có vấn đề' })
+  }
+})
+
+module.exports = router

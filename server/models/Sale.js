@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const SaleBillSchema = new Schema({
-  UserId: {
+const SaleSchema = new Schema({
+  Account: {
     type: mongoose.Types.ObjectId,
-    ref: 'user',
+    ref: 'account',
   },
-  CustomerId: {
+  Customer: {
     type: mongoose.Types.ObjectId,
     ref: 'customer',
   },
@@ -18,6 +18,14 @@ const SaleBillSchema = new Schema({
     type: Number,
     default: 0,
   },
+  orderTotal: {
+    type: Number,
+    default: 0
+  },
+  point: {
+    type: Number,
+    default: 0
+  },
   orderDetails:
     [
       {
@@ -27,7 +35,7 @@ const SaleBillSchema = new Schema({
         },
         amount: {
           type: Number,
-          default: 0
+          default: 20
         },
       }
     ],
@@ -41,4 +49,4 @@ const SaleBillSchema = new Schema({
   },
 })
 
-module.exports = mongoose.model('saleBill', SaleBillSchema)
+module.exports = mongoose.model('sale', SaleSchema)

@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const authRouter = require('./routes/auth')
 const customerRouter = require('./routes/customer')
 const productRouter = require('./routes/product')
-
+const saleRouter = require('./routes/sale')
 const cors = require('cors')
 
 const connectDB = async () => {
@@ -32,5 +32,6 @@ app.use(express.json())
 app.use('/api/auth', authRouter)
 app.use('/api/customer', customerRouter)
 app.use('/api/product', productRouter)
+app.use('/api/sale', saleRouter)
 
 app.listen(5000, () => console.log(`server started on port 5000`))
