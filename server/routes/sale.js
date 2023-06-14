@@ -4,15 +4,15 @@ const verifyToken = require('../middleware/auth')
 const Sale = require('../models/Sale')
 
 router.post('/', verifyToken, async (req, res) => {
-  const { Account, Customer, subTotal, discount, orderTotal, point, orderDetails } = req.body
+  const { account, customer, subTotal, discount, orderTotal, point, orderDetails } = req.body
 
-  if (!Account || !Customer || !subTotal || !discount || !orderTotal || !point || !orderDetails)
+  if (!account || !customer || !subTotal || !discount || !orderTotal || !point || !orderDetails)
     return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
 
   try {
     const newSaleBill = new Sale({
-      Account,
-      Customer,
+      account,
+      customer,
       subTotal,
       discount,
       orderTotal,
@@ -33,9 +33,9 @@ router.post('/', verifyToken, async (req, res) => {
 router.get('/:id', verifyToken, async (req, res) => {
   try {
     const saleBills = await Sale
-      .find({ CustomerId: req.params.id })
-      .populate("Customer")
-      .populate("Account")
+      .find({ customerId: req.params.id })
+      .populate("customer")
+      .populate("account")
       .populate('orderDetails.product')
 
     if (!saleBills) {

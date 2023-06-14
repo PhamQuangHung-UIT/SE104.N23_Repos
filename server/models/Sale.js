@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const SaleSchema = new Schema({
-  Account: {
+  account: {
     type: mongoose.Types.ObjectId,
     ref: 'account',
   },
-  Customer: {
+  customer: {
     type: mongoose.Types.ObjectId,
     ref: 'customer',
   },
