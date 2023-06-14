@@ -113,6 +113,21 @@ const Sales = () => {
     setProducts(productsFilter);
   }, [productSearchText]);
 
+  //get product from API
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    setAuthToken(accessToken);
+    axios
+      .get("http://localhost:5000/api/product/products")
+      .then((res) => {
+        setProducts(res.data.products);
+        setOriginProducts(res.data.products);
+      })
+      .catch((err) => {
+        console.log(err.res);
+      });
+  }, []);
+
   useEffect(() => {
     /**
      * Alert if clicked on outside of element
@@ -303,6 +318,47 @@ const Sales = () => {
                 })}
               </ul>
             </div>
+          </div>
+          <div className="sales-list-products">
+            {products &&
+              products.map((product) => {
+                return (
+                    <div className="sales-card">
+                      <div className="sales-card-img">
+                        <img
+                          className="sales-card-img"
+                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgvqLjvl795N6JYsbFj8rZmNegGkbt1jz1aA&usqp=CAU"
+                          alt="Ảnh"
+                        />
+                      </div>
+                      <div className="sales-card-desc">
+                        <div className="sales-card-name">
+                          <p>{product.name}</p>
+                        </div>
+                        <div className="sales-card_prices">
+                          {product.discount > 0 && (
+                            <p className="sales-card-cost-price">{`${product.costPrice.toLocaleString(
+                              "en"
+                            )}đ`}</p>
+                          )}
+                          <p className="sales-card-sale-price">{`${product.salePrice.toLocaleString(
+                            "en"
+                          )}đ`}</p>
+                        </div>
+                        <div className="sales-card-buy">
+                          <div
+                            onClick={() => {
+                              addItemToOrderDetail(product);
+                            }}
+                            className="sales-card-buy-btn"
+                          >
+                            Chọn
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                );
+              })}
           </div>
         </div>
         <div className="sales_right">
