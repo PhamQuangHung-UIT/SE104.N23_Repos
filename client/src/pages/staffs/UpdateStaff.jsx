@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useFormStaff from "./form_validate/useFormStaff";
 import validateUpdateStaff from "./form_validate/validateUpdateStaff";
 import { GrClose } from "react-icons/gr";
+import { ENDPOINT } from './../../App';
 
 const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
   const inputAvatarRef = useRef(null);
@@ -23,7 +24,7 @@ const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
 
     //post to API
     axios
-      .put(`http://localhost:5000/api/auth/update/${staff._id}`, formStaff)
+      .put(`${ENDPOINT}/auth/update/${staff._id}`, formStaff)
       .then((res) => {
         setShowFormUpdateStaff(false);
         toast("Cập nhật nhân viên thành công");

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "./AddProduct.css";
 import useFormProduct from "./form_validate/useFormProduct";
 import validateProduct from "./form_validate/validateProduct";
+import { ENDPOINT } from './../../App';
 
 const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   const inputAvatarRef = useRef(null);
@@ -64,7 +65,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
 
     //post to API
     axios
-      .post("http://localhost:5000/api/product", formProduct)
+      .post(`${ENDPOINT}/product`, formProduct)
       .then((res) => {
         console.log(res.data);
         setProductId(res.data.id);

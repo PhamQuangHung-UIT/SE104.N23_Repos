@@ -6,6 +6,7 @@ import "./updateProduct.css";
 import { toast } from "react-toastify";
 import useFormProduct from "../form_validate/useFormProduct";
 import validateProduct from "../form_validate/validateProduct";
+import { ENDPOINT } from './../../../App';
 
 const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
   const inputAvatarRef = useRef(null);
@@ -14,7 +15,7 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
 
   //get All cateogories
   useEffect(() => {
-    axios.get("http://localhost:5000/api/product").then((res) => {
+    axios.get(`${ENDPOINT}/product`).then((res) => {
       setCategories(res.data);
     });
   }, []);
@@ -72,7 +73,7 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
 
     //post to API
     axios
-      .put(`http://localhost:5000/api/product/${product._id}`, formProduct)
+      .put(`${ENDPOINT}/product/${product._id}`, formProduct)
       .then((res) => {
         toast("Cập nhật sản phẩm thành công");
       })

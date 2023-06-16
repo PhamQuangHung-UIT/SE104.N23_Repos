@@ -17,6 +17,7 @@ import UpdateProduct from "../products/updateProduct/UpdateProduct";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import Dialog from "../../components/dialog/Dialog";
 import { toast } from "react-toastify";
+import { ENDPOINT } from "../../App";
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -81,7 +82,7 @@ const Products = () => {
     const accessToken = localStorage.getItem("accessToken");
     setAuthToken(accessToken);
     axios
-      .get("http://localhost:5000/api/product/products")
+      .get(`${ENDPOINT}/product/products`)
       .then((res) => {
         setProducts(res.data.products);
         setOriginProducts(res.data.products);
@@ -101,7 +102,7 @@ const Products = () => {
   };
   const handleDeleteProduct = () => {
     axios
-      .delete(`http://localhost:5000/api/product/${selectedProduct._id}`)
+      .delete(`${ENDPOINT}/product/${selectedProduct._id}`)
       .then((res) => {
         handleCloseDialog();
         toast("Xoá sản phẩm thành công");

@@ -34,4 +34,4 @@ app.use('/api/customer', customerRouter)
 app.use('/api/product', productRouter)
 app.use('/api/sale', saleRouter)
 
-app.listen(5000, () => console.log(`server started on port 5000`))
+app.listen(5001, () => console.log(`server started on port 6000`))

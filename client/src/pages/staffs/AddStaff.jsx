@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useFormStaff from "./form_validate/useFormStaff";
 import validateStaff from "./form_validate/validateStaff";
+import { ENDPOINT } from './../../App';
 const AddStaff = ({ setShowFormAddStaff }) => {
   const inputAvatarRef = useRef(null);
   const [staff, setStaff] = useState({
@@ -35,7 +36,7 @@ const AddStaff = ({ setShowFormAddStaff }) => {
 
     //post to API
     axios
-      .post("http://localhost:5000/api/auth/register", formStaff)
+      .post(`${ENDPOINT}/auth/register`, formStaff)
       .then((res) => {
         setShowFormAddStaff(false);
         toast("Thêm mới nhân viên thành công");
