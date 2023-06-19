@@ -18,6 +18,7 @@ import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import Dialog from "../../components/dialog/Dialog";
 import { toast } from "react-toastify";
 import { ENDPOINT } from "../../App";
+import { BsSearch } from "react-icons/bs";
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -100,6 +101,7 @@ const Products = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   const handleDeleteProduct = () => {
     axios
       .delete(`${ENDPOINT}/product/${selectedProduct._id}`)
@@ -110,6 +112,20 @@ const Products = () => {
       })
       .catch("Lỗi, xin hãy thử lại sau");
   };
+
+  //search product
+  useEffect(() => {
+    if (!searchText || !products) {
+    }
+    const productFilter = originProducts.filter((product) => {
+      console.log(product)
+      return (
+        product.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
+        product._id.indexOf(searchText) > -1
+      );
+    });
+    setProducts(productFilter);
+  }, [searchText]);
   
   return (
     <div className="main products">
@@ -147,10 +163,9 @@ const Products = () => {
             }}
             placeholder="Nhập mã hoặc tên sản phẩm"
           />
-          <label
-            htmlFor="search_name-input"
-            className="search_name-icon bx bx-search"
-          ></label>
+           <label htmlFor="search_name-input" className="search_name-icon">
+            <BsSearch />
+          </label>
         </div>
       </div>
 
@@ -216,7 +231,7 @@ const Products = () => {
                           <TableRow
                             hover
                             role="checkbox"
-                            key={row.code}
+                            key={index}
                             style={
                               index % 2 == 1
                                 ? { backgroundColor: "#ff861a24" }
