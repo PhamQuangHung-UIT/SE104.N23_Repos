@@ -10,7 +10,8 @@ import TableRow from "@mui/material/TableRow";
 import setAuthToken from "../../untils/setAuthToken";
 import axios from "axios";
 import { useReactToPrint } from "react-to-print";
-import { ENDPOINT } from './../../App';
+import { ENDPOINT } from "./../../App";
+import { BsSearch } from "react-icons/bs";
 
 const columns = [
   { id: "_id", label: "Mã Khách hàng" },
@@ -56,6 +57,21 @@ const Customers = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  // Search by strings
+  const handleSearch = (e) => {
+    setSearchText(e.target.value);
+  };
+  useEffect(() => {
+    //Call api and get data
+    axios
+      .get(`${ENDPOINT}/customer/search/${searchText}`)
+      .then((response) => {
+        setCustomers(response.data.customers);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }, [searchText]);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -79,7 +95,7 @@ const Customers = () => {
       const dataPoints = defaultCustomer.filter(
         (customer) => customer.point <= pointTo && customer.point >= pointFrom
       );
-      setCustomers(dataPoints)
+      setCustomers(dataPoints);
     } else if (!pointFrom) {
       const dataPoints = defaultCustomer.filter(
         (customer) => customer.point <= pointTo
@@ -98,7 +114,9 @@ const Customers = () => {
       setCustomers(defaultCustomer);
     } else if (totalPriceFrom && totalPriceTo) {
       const dataPoints = defaultCustomer.filter(
-        (customer) => customer.totalPrice <= totalPriceTo && customer.totalPrice >= totalPriceFrom
+        (customer) =>
+          customer.totalPrice <= totalPriceTo &&
+          customer.totalPrice >= totalPriceFrom
       );
       setCustomers(dataPoints);
     } else if (!totalPriceFrom) {
@@ -122,12 +140,12 @@ const Customers = () => {
             className="search_name-input"
             id="search_name-input"
             value={searchText}
+            onChange={handleSearch}
             placeholder="Nhập tên hoặc SĐT khách hàng"
           />
-          <label
-            htmlFor="search_name-input"
-            className="search_name-icon bx bx-search"
-          ></label>
+          <label htmlFor="search_name-input" className="search_name-icon">
+            <BsSearch />
+          </label>
         </div>
       </div>
       <div className="main_list">

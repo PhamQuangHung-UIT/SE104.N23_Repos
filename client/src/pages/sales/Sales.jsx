@@ -6,6 +6,8 @@ import setAuthToken from "../../untils/setAuthToken";
 import AddCustomer from "./AddCustomer/AddCustomer";
 import "./Sales.css";
 import { ENDPOINT } from "../../App";
+import { BsSearch } from "react-icons/bs";
+
 const Sales = () => {
   let existCurrentCustomer;
   let existCurrentOrders;
@@ -174,7 +176,7 @@ const Sales = () => {
   ]);
   const handleCancel = () => {
     setShowFormAddCustomer(false);
-    console.log('cancel')
+    console.log("cancel");
   };
   const handleClickActiveStaff = (index) => {
     setActiveTab(index);
@@ -329,40 +331,40 @@ const Sales = () => {
             {products &&
               products.map((product) => {
                 return (
-                    <div className="sales-card">
-                      <div className="sales-card-img">
-                        <img
-                          className="sales-card-img"
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgvqLjvl795N6JYsbFj8rZmNegGkbt1jz1aA&usqp=CAU"
-                          alt="Ảnh"
-                        />
+                  <div className="sales-card">
+                    <div className="sales-card-img">
+                      <img
+                        className="sales-card-img"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgvqLjvl795N6JYsbFj8rZmNegGkbt1jz1aA&usqp=CAU"
+                        alt="Ảnh"
+                      />
+                    </div>
+                    <div className="sales-card-desc">
+                      <div className="sales-card-name">
+                        <p>{product.name}</p>
                       </div>
-                      <div className="sales-card-desc">
-                        <div className="sales-card-name">
-                          <p>{product.name}</p>
-                        </div>
-                        <div className="sales-card_prices">
-                          {product.discount > 0 && (
-                            <p className="sales-card-cost-price">{`${product.costPrice.toLocaleString(
-                              "en"
-                            )}đ`}</p>
-                          )}
-                          <p className="sales-card-sale-price">{`${product.salePrice.toLocaleString(
+                      <div className="sales-card_prices">
+                        {product.discount > 0 && (
+                          <p className="sales-card-cost-price">{`${product.costPrice.toLocaleString(
                             "en"
                           )}đ`}</p>
-                        </div>
-                        <div className="sales-card-buy">
-                          <div
-                            onClick={() => {
-                              addItemToOrderDetail(product);
-                            }}
-                            className="sales-card-buy-btn"
-                          >
-                            Chọn
-                          </div>
+                        )}
+                        <p className="sales-card-sale-price">{`${product.salePrice.toLocaleString(
+                          "en"
+                        )}đ`}</p>
+                      </div>
+                      <div className="sales-card-buy">
+                        <div
+                          onClick={() => {
+                            addItemToOrderDetail(product);
+                          }}
+                          className="sales-card-buy-btn"
+                        >
+                          Chọn
                         </div>
                       </div>
                     </div>
+                  </div>
                 );
               })}
           </div>
@@ -406,10 +408,9 @@ const Sales = () => {
                   type="text"
                   placeholder="Tìm kiếm khách hàng"
                 />
-                <label
-                  htmlFor="search_name-input"
-                  className="search_name-icon bx bx-search"
-                ></label>
+                <label htmlFor="search_name-input" className="search_name-icon">
+                  <BsSearch />
+                </label>
               </div>
 
               {showListCustomers && (

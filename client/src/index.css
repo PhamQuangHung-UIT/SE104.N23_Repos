@@ -250,6 +250,9 @@ table {
 }
 
 .search_name-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 6px;
   font-size: 23px;
   width: 59px;
