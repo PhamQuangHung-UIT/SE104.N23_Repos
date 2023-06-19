@@ -3,17 +3,18 @@ import React, { useEffect, useRef, useState } from "react";
 import NumberFormat from "react-number-format";
 import { Link } from "react-router-dom";
 import setAuthToken from "../../untils/setAuthToken";
+import AddCustomer from "./AddCustomer/AddCustomer";
 import "./Sales.css";
 const Sales = () => {
   let existCurrentCustomer;
   let existCurrentOrders;
-  try {
-    existCurrentCustomer = JSON.parse(localStorage.getItem("currentCustomer"));
-    existCurrentOrders = JSON.parse(localStorage.getItem("orders"));
-  } catch {
-    existCurrentCustomer = localStorage.getItem("currentCustomer");
-    existCurrentOrders = localStorage.getItem("orders");
-  }
+  // try {
+  //   existCurrentCustomer = JSON.parse(localStorage.getItem("currentCustomer"));
+  //   existCurrentOrders = JSON.parse(localStorage.getItem("orders"));
+  // } catch {
+  //   existCurrentCustomer = localStorage.getItem("currentCustomer");
+  //   existCurrentOrders = localStorage.getItem("orders");
+  // }
   const [showListCustomers, setShowListCustomer] = useState(false);
   const [products, setProducts] = useState([]);
   const [originProducts, setOriginProducts] = useState([]);
@@ -22,6 +23,7 @@ const Sales = () => {
   const [scroreInput, setScoreInput] = useState(0);
   const [filterCustomers, setFilterCustomers] = useState([]);
   const [inputTextSearchCustomer, setInputTextSearchCustomer] = useState("");
+  const [showFormAddCustomer, setShowFormAddCustomer] = useState(false);
   const wrapperRef = useRef(null);
   const [guestMoney, setGuestMoney] = useState({
     guestMoneyFormat: "0 đ",
@@ -98,7 +100,7 @@ const Sales = () => {
       .catch((err) => {
         console.log("Lỗi call api");
       });
-  }, []);
+  }, [showFormAddCustomer]);
   //search Product
   useEffect(() => {
     //   console.log({ originProducts });
@@ -169,7 +171,9 @@ const Sales = () => {
       name: "Hoá đơn 5",
     },
   ]);
-
+  const handleCancel = () => {
+    setShowFormAddCustomer(false);
+  };
   const handleClickActiveStaff = (index) => {
     setActiveTab(index);
   };
@@ -274,7 +278,7 @@ const Sales = () => {
   };
   return (
     <div className="main">
-
+      <AddCustomer open={showFormAddCustomer} handleCancel={handleCancel} />
       <div className="search_name"></div>
 
       <div className="main_list sales_main">
@@ -370,6 +374,7 @@ const Sales = () => {
                   className="btn mg-0"
                   style={{ fontSize: "16px", padding: ".5rem 2rem !important" }}
                   onClick={() => {
+                    setShowFormAddCustomer(true);
                   }}
                 >
                   <i className="bx bx-plus action-btn-icon"></i>
