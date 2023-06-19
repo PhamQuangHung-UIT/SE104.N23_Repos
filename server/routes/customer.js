@@ -7,13 +7,13 @@ const Customer = require('../models/Customer')
 router.post('/', verifyToken, async (req, res) => {
   const { name, email, img, telephoneNumber, address } = req.body
 
-  if (!name || !email || !img || !telephoneNumber || !address)
+  if (!name || !email || !telephoneNumber || !address)
     return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
   try {
     const newCustomer = new Customer({
       name: name,
       email: email,
-      img: img,
+      img: img ? img : '',
       telephoneNumber: telephoneNumber,
       address: address
     })
