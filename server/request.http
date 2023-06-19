@@ -56,7 +56,6 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3M
 
 {
   "name": " Xuân Trường6",
-  "email": "truong@gmail.com",
   "img": "https://static-images.vnncdn.net/files/publish/2022/9/3/bien-vo-cuc-thai-binh-346.jpeg",
   "telephoneNumber": "0987236487",
   "address": "Sài Gòn"
@@ -111,11 +110,15 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3M
   "img": "https://vangcuulong.vn/multidata/ban-biet-gi-ve-ngoc-trai-1.jpg"
 } 
 ###
-GET http://localhost:5000/api/product/products
+GET http://localhost:5001/api/product/products
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3MTljYzg2NjAyMTY2MDU5MjgzOGQiLCJpYXQiOjE2ODM0MzIxODh9.0pH2sC8WHRyJuJwEiCR5Hhu0RGhkF63eh9GRkA0UJzg
 ###
 DELETE http://localhost:5000/api/product/64744d980a7f277d8dc5c2bc
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3MTljYzg2NjAyMTY2MDU5MjgzOGQiLCJpYXQiOjE2ODM0MzIxODh9.0pH2sC8WHRyJuJwEiCR5Hhu0RGhkF63eh9GRkA0UJzg
+###
+GET http://localhost:5001/api/product/search/a
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDU3MTljYzg2NjAyMTY2MDU5MjgzOGQiLCJpYXQiOjE2ODM0MzIxODh9.0pH2sC8WHRyJuJwEiCR5Hhu0RGhkF63eh9GRkA0UJzg
 ###

@@ -108,4 +108,17 @@ router.delete('/:id', verifyToken, async (req, res) => {
   }
 })
 
+router.get('/search/:search', async (req, res) => {
+  try {
+    const products = await Product.find({
+      $or: [
+        { name: { $regex: req.params.search, $options: 'i' } },
+      ]
+    });
+    return res.status(200).json({ success: true, products: products })
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message })
+  }
+});
+
 module.exports = router
