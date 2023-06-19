@@ -121,7 +121,7 @@ const Sales = () => {
     const accessToken = localStorage.getItem("accessToken");
     setAuthToken(accessToken);
     axios
-      .get("http://localhost:5000/api/product/products")
+      .get(`${ENDPOINT}/product/products`)
       .then((res) => {
         setProducts(res.data.products);
         setOriginProducts(res.data.products);
@@ -174,6 +174,7 @@ const Sales = () => {
   ]);
   const handleCancel = () => {
     setShowFormAddCustomer(false);
+    console.log('cancel')
   };
   const handleClickActiveStaff = (index) => {
     setActiveTab(index);

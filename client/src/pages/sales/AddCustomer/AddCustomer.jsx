@@ -6,6 +6,7 @@ import "./addcustomer.css";
 import useFormAddCustomer from "./useFormAddCustomer";
 import validateCustomer from "./validateCustomer";
 import { toast } from "react-toastify";
+import { ENDPOINT } from '../../../App'
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
   z-index: 1300;
@@ -33,7 +34,7 @@ const AddCustomer = ({ open, handleCancel }) => {
     name: "",
     telephoneNumber: "",
     email: "",
-    address:""
+    address: "",
   });
 
   const submitForm = () => {
@@ -42,21 +43,21 @@ const AddCustomer = ({ open, handleCancel }) => {
       name: customer.name,
       telephoneNumber: customer.telephoneNumber,
       email: customer.email,
-      address: customer.address
+      address: customer.address,
     };
+    console.log(customer)
 
     //post to API
     axios
-      .post(
-        "http://localhost:5000/api/customer",
-        customer
-      )
+      .post(`${ENDPOINT}/customer`, customer)
       .then((res) => {
         toast("Thêm khách hàng thành công.");
       })
       .catch((err) => {
         console.log(err.response.data);
-        toast("Thêm khách hàng thất bại, tên tài khoản hoặc số điện thoại đã tồn tại trong hệ thống.")
+        toast(
+          "Thêm khách hàng thất bại, tên tài khoản hoặc số điện thoại đã tồn tại trong hệ thống."
+        );
       });
   };
   const { handleChange, handleSubmit, errors } = useFormAddCustomer(
@@ -71,13 +72,13 @@ const AddCustomer = ({ open, handleCancel }) => {
       aria-labelledby="unstyled-modal-title"
       aria-describedby="unstyled-modal-description"
       open={open}
-      close={handleCancel}
+      onClose={handleCancel}
       BackdropComponent={Backdrop}
     >
       <div className="add-customer-container">
         <div className="add-customer-title ">
           <p>Thêm khách hàng</p>
-          <div 
+          <div
             onClick={() => {
               handleCancel();
             }}
@@ -103,7 +104,9 @@ const AddCustomer = ({ open, handleCancel }) => {
             type="text"
             value={customer.telephoneNumber}
             onChange={handleChange}
-            placeholder={errors.telephoneNumber ? errors.telephoneNumber : "Số điện thoại"}
+            placeholder={
+              errors.telephoneNumber ? errors.telephoneNumber : "Số điện thoại"
+            }
           />
           <input
             name="email"
@@ -127,12 +130,12 @@ const AddCustomer = ({ open, handleCancel }) => {
           />
         </div>
 
-        <div className="action-btn" style={{margin: '0'}}>
-            <button className="btn" onClick={handleSubmit}>
-              <i className="bx bx-plus action-btn-icon"></i>
-              Thêm nhân viên{" "}
-            </button>
-          </div>
+        <div className="action-btn" style={{ margin: "0" }}>
+          <button className="btn" onClick={handleSubmit}>
+            <i className="bx bx-plus action-btn-icon"></i>
+            Thêm nhân viên{" "}
+          </button>
+        </div>
       </div>
     </StyledModal>
   );
