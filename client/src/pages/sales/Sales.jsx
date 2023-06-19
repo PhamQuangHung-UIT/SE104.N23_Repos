@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import setAuthToken from "../../untils/setAuthToken";
 import AddCustomer from "./AddCustomer/AddCustomer";
 import "./Sales.css";
+import { ENDPOINT } from "../../App";
 const Sales = () => {
   let existCurrentCustomer;
   let existCurrentOrders;
@@ -93,7 +94,7 @@ const Sales = () => {
     const accessToken = localStorage.getItem("accessToken");
     setAuthToken(accessToken);
     axios
-      .get("http://localhost:5000/api/customer/GetAllCustomer")
+      .get(`${ENDPOINT}/customer/GetAllCustomer`)
       .then((res) => {
         setCustomers(res.data.customers);
       })

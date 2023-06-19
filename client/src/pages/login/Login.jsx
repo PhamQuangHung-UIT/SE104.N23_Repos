@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import useFormLogin from "./useFormLogin";
 import validateUser from "./validateUser";
+import { ENDPOINT } from './../../App';
 const Login = () => {
   const [errorLogin, setErorLogin] = useState("");
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Login = () => {
       password: user.password,
     };
     axios
-      .post(`http://localhost:5000/api/auth/login`, registerInput)
+      .post(`${ENDPOINT}/auth/login`, registerInput)
       .then((res) => {
         if (res.data.success) {
           localStorage.setItem(

@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import setAuthToken from "../../untils/setAuthToken";
 import axios from "axios";
 import { useReactToPrint } from "react-to-print";
+import { ENDPOINT } from './../../App';
 
 const columns = [
   { id: "_id", label: "Mã Khách hàng" },
@@ -60,7 +61,7 @@ const Customers = () => {
     const accessToken = localStorage.getItem("accessToken");
     setAuthToken(accessToken);
     axios
-      .get(`http://localhost:5000/api/customer/GetAllCustomer`)
+      .get(`${ENDPOINT}/customer/GetAllCustomer`)
       .then((res) => {
         setDefaultCustomer(res.data.customers);
         setCustomers(res.data.customers);

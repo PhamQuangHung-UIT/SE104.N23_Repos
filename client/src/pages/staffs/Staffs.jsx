@@ -17,6 +17,7 @@ import Dialog from "../../components/dialog/Dialog";
 import setAuthToken from "../../untils/setAuthToken";
 import AddStaff from "./AddStaff";
 import UpdateStaff from "./UpdateStaff";
+import { ENDPOINT } from "../../App";
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -86,7 +87,7 @@ const Staffs = () => {
     const accessToken = localStorage.getItem("accessToken");
     setAuthToken(accessToken);
     axios
-      .delete(`http://localhost:5000/api/auth/delete/${selectedStaff._id}`)
+      .delete(`${ENDPOINT}/auth/delete/${selectedStaff._id}`)
       .then((res) => {
         handleCloseDialog();
         toast("Xóa nhân viên thành công");
@@ -102,7 +103,7 @@ const Staffs = () => {
     const accessToken = localStorage.getItem("accessToken");
     setAuthToken(accessToken);
     axios
-      .get("http://localhost:5000/api/auth/getAllStaffs")
+      .get(`${ENDPOINT}/auth/getAllStaffs`)
       .then((res) => {
         setStaffs(res.data.staffs);
         setOriginStaffs(res.data.staffs);
