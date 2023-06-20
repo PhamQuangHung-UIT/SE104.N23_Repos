@@ -1,13 +1,16 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import "./checkout.css";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
-  let history = useHistory();
+  const navigate = useNavigate();
   let location = useLocation();
+
   const order = location.state.order;
+
   const [orderId, setOrderId] = useState("");
 
   // console.log(JSON.parse(localStorage.getItem("currentCustomer")));
@@ -18,8 +21,8 @@ const Checkout = () => {
   });
   const handleCheckout = () => {
     const orderApi = {
-      user: order.user.userId,
-      customer: order.customer.id,
+      account: order.user._id,
+      customer: order.customer.id ?? "6491c9cf9312e3f75b25ff13",
       subTotal: order.subTotal,
       discount: order.discount,
       orderTotal: order.orderTotal,
@@ -27,15 +30,15 @@ const Checkout = () => {
       orderDetails: order.orderDetails.map((orderItem) => {
         return {
           product: orderItem.productId,
-          quantity: orderItem.quantity,
+          amount: orderItem.quantity,
         };
       }),
     };
     axios
-      .post("http://localhost:5000/api/sale", { ...orderApi })
+      .post("http://localhost:5001/api/sale", { ...orderApi })
       .then((res) => {
         setOrderId(res.data._id);
-
+        console.log("kkk");
         const existCurrentOrders = JSON.parse(localStorage.getItem("orders"));
         const existCurrentCustomer = JSON.parse(
           localStorage.getItem("currentCustomer")
@@ -57,8 +60,8 @@ const Checkout = () => {
           JSON.stringify(existCurrentCustomer)
         );
         handlePrint();
-        history.push("/sales");
-        alert("Thanh toán thành công");
+        navigate("/sales");
+        toast("Thanh toán thành công.");
       })
       .catch((err) => {
         console.log(err);
@@ -149,7 +152,7 @@ const Checkout = () => {
 
         <button
           onClick={() => {
-            history.push("/sales");
+            navigate("/sales");
           }}
           className="invoice-confirm-cancel"
         >

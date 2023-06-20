@@ -118,7 +118,6 @@ const Products = () => {
     if (!searchText || !products) {
     }
     const productFilter = originProducts.filter((product) => {
-      console.log(product)
       return (
         product.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
         product._id.indexOf(searchText) > -1

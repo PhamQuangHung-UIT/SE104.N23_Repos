@@ -10,6 +10,7 @@ import Login from "../pages/login/Login";
 import PrivateRoute from "./PrivateRoute";
 import HomeLayout from "../components/layout/HomeLayout";
 import Sales from "../pages/sales/Sales";
+import Checkout from "../pages/sales/checkout/Checkout";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
         path: "/account",
         element: <Account />,
       },
+      {
+        path:'/checkout',
+        element:<Checkout/>
+      }
     ],
   },
   {

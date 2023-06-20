@@ -6,7 +6,7 @@ const Sale = require('../models/Sale')
 router.post('/', verifyToken, async (req, res) => {
   const { account, customer, subTotal, discount, orderTotal, point, orderDetails } = req.body
 
-  if (!account || !customer || !subTotal || !discount || !orderTotal || !point || !orderDetails)
+  if (!account || !customer || !subTotal || parseFloat(discount) < 0 || !orderTotal || parseFloat(point)< 0 || !orderDetails)
     return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
 
   try {

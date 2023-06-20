@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import "./Account.css";
 
 const Account = () => {
-  const userLocal = JSON.parse(localStorage.getItem("user"));
+  const userLocal = (localStorage.getItem("user"));
   console.log(userLocal);
   const [user, setUser] = useState();
 

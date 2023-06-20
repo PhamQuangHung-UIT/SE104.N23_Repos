@@ -1,23 +1,39 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { BiMinus } from "react-icons/bi";
+import { BsSearch } from "react-icons/bs";
+import { IoMdAdd } from "react-icons/io";
 import NumberFormat from "react-number-format";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ENDPOINT } from "../../App";
 import setAuthToken from "../../untils/setAuthToken";
 import AddCustomer from "./AddCustomer/AddCustomer";
 import "./Sales.css";
-import { ENDPOINT } from "../../App";
-import { BsSearch } from "react-icons/bs";
 
 const Sales = () => {
   let existCurrentCustomer;
   let existCurrentOrders;
-  // try {
-  //   existCurrentCustomer = JSON.parse(localStorage.getItem("currentCustomer"));
-  //   existCurrentOrders = JSON.parse(localStorage.getItem("orders"));
-  // } catch {
-  //   existCurrentCustomer = localStorage.getItem("currentCustomer");
-  //   existCurrentOrders = localStorage.getItem("orders");
-  // }
+
+  const isAuthenticate = () => {
+    const user = localStorage.getItem("user");
+    return user && user !== "undefined";
+  };
+  try {
+    if (existCurrentCustomer !== undefined) {
+      console.log("kk");
+      existCurrentCustomer = JSON.parse(
+        localStorage.getItem("currentCustomer")
+      );
+    }
+    if (existCurrentOrders !== undefined) {
+      console.log("kk");
+      existCurrentOrders = JSON.parse(localStorage.getItem("orders"));
+    }
+  } catch {
+    existCurrentCustomer = localStorage.getItem("currentCustomer");
+    existCurrentOrders = localStorage.getItem("orders");
+  }
+  const navigate = useNavigate();
   const [showListCustomers, setShowListCustomer] = useState(false);
   const [products, setProducts] = useState([]);
   const [originProducts, setOriginProducts] = useState([]);
@@ -65,27 +81,27 @@ const Sales = () => {
     existCurrentCustomer || [
       {
         name: "Khách lẻ",
-        phone: "",
+        telephoneNumber: "",
         point: 0,
       },
       {
         name: "Khách lẻ",
-        phone: "",
+        telephoneNumber: "",
         point: 0,
       },
       {
         name: "Khách lẻ",
-        phone: "",
+        telephoneNumber: "",
         point: 0,
       },
       {
         name: "Khách lẻ",
-        phone: "",
+        telephoneNumber: "",
         point: 0,
       },
       {
         name: "Khách lẻ",
-        phone: "",
+        telephoneNumber: "",
         point: 0,
       },
     ]
@@ -106,8 +122,9 @@ const Sales = () => {
   }, [showFormAddCustomer]);
   //search Product
   useEffect(() => {
-    //   console.log({ originProducts });
+    console.log({ originProducts });
     const productsFilter = originProducts.filter((product) => {
+      console.log(product);
       return (
         product?.name?.toLowerCase().indexOf(productSearchText?.toLowerCase()) >
           -1 ||
@@ -203,22 +220,25 @@ const Sales = () => {
       const newCurrentCustomer = [...currentCustomer];
       newCurrentCustomer[activeTab] = {
         name: "Khách lẻ",
-        phone: "",
+        telephoneNumber: "",
         point: 0,
       };
       setCurrentCustomer(newCurrentCustomer);
-      localStorage.setItem(
-        "currentCustomer",
-        JSON.stringify(newCurrentCustomer)
-      );
+      if (newCurrentCustomer !== undefined) {
+        localStorage.setItem(
+          "currentCustomer",
+          JSON.stringify(newCurrentCustomer)
+        );
+      }
     }
     if (!searchText || !filterCustomers) {
       setFilterCustomers(customers);
     }
     const customersFilter = originCustomers.filter((customer) => {
+      console.log(customer);
       return (
         customer.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
-        customer.phone.indexOf(searchText) > -1
+        customer.telephoneNumber.indexOf(searchText) > -1
       );
     });
     setFilterCustomers(customersFilter);
@@ -252,13 +272,16 @@ const Sales = () => {
         temp[order.productId].quantity += order.quantity;
       }
     }
-
     for (var i in temp) {
       result.push(temp[i]);
     }
     newOrders[activeTab] = { ...newOrders[activeTab], orderDetails: result };
     setOrders(newOrders);
-    localStorage.setItem("orders", JSON.stringify(newOrders));
+    console.log(product);
+    console.log(newOrders);
+    if (newOrders !== undefined) {
+      localStorage.setItem("orders", JSON.stringify(newOrders));
+    }
   };
   const getTempPrice = () => {
     let sum = 0;
@@ -428,10 +451,12 @@ const Sales = () => {
                             point: customer.point,
                           };
                           setCurrentCustomer(newCurrentCustomer);
-                          localStorage.setItem(
-                            "currentCustomer",
-                            JSON.stringify(newCurrentCustomer)
-                          );
+                          if (newCurrentCustomer !== undefined) {
+                            localStorage.setItem(
+                              "currentCustomer",
+                              JSON.stringify(newCurrentCustomer)
+                            );
+                          }
                           setInputTextSearchCustomer(
                             newCurrentCustomer[activeTab].name
                           );
@@ -450,7 +475,7 @@ const Sales = () => {
                   Khách hàng:&nbsp; <b>{currentCustomer[activeTab].name}</b>
                 </div>
                 <div className="sales_customer-info-item">
-                  Số điện thoại:&nbsp; <b>{currentCustomer[activeTab].phone}</b>
+                  Số điện thoại:&nbsp; <b>{currentCustomer[activeTab].telephoneNumber}</b>
                 </div>
                 <div className="sales_customer-info-item">
                   Tổng điểm tích luỹ:&nbsp;{" "}
@@ -502,10 +527,12 @@ const Sales = () => {
                                   //   index
                                   // ].quantity = 0;
                                   setOrders(newOrders);
-                                  localStorage.setItem(
-                                    "orders",
-                                    JSON.stringify(newOrders)
-                                  );
+                                  if (newOrders !== undefined) {
+                                    localStorage.setItem(
+                                      "orders",
+                                      JSON.stringify(newOrders)
+                                    );
+                                  }
                                 }
                               }}
                               class="bx bx-trash"
@@ -526,14 +553,17 @@ const Sales = () => {
                                         index
                                       ].quantity -= 1;
                                       setOrders(newOrders);
-                                      localStorage.setItem(
-                                        "orders",
-                                        JSON.stringify(newOrders)
-                                      );
+                                      if (newOrders !== undefined) {
+                                        localStorage.setItem(
+                                          "orders",
+                                          JSON.stringify(newOrders)
+                                        );
+                                      }
                                     }
                                   }}
-                                  class="bx bx-minus"
-                                ></i>
+                                >
+                                  <BiMinus />
+                                </i>
                               </div>
                               <div className="group-count-item">
                                 <input
@@ -552,10 +582,12 @@ const Sales = () => {
                                       newOrders[activeTab].orderDetails[index] =
                                         orderItem;
                                       setOrders(newOrders);
-                                      localStorage.setItem(
-                                        "orders",
-                                        JSON.stringify(newOrders)
-                                      );
+                                      if (newOrders !== undefined) {
+                                        localStorage.setItem(
+                                          "orders",
+                                          JSON.stringify(newOrders)
+                                        );
+                                      }
                                     }
                                   }}
                                 />
@@ -568,13 +600,16 @@ const Sales = () => {
                                       index
                                     ].quantity += 1;
                                     setOrders(newOrders);
-                                    localStorage.setItem(
-                                      "orders",
-                                      JSON.stringify(newOrders)
-                                    );
+                                    if (newOrders !== undefined) {
+                                      localStorage.setItem(
+                                        "orders",
+                                        JSON.stringify(newOrders)
+                                      );
+                                    }
                                   }}
-                                  class="bx bx-plus"
-                                ></i>
+                                >
+                                  <IoMdAdd />
+                                </i>
                               </div>
                             </div>
                             <b>{`${(
@@ -660,38 +695,34 @@ const Sales = () => {
               )}
             </div>
           </div>
-
-          {getTempPrice() > 0 && (
-            <Link
-              to={{
-                pathname: "/checkout",
-                state: {
-                  order: {
-                    activeTab: activeTab,
-                    orderTotal: getTotalPrice(),
-                    subTotal: getTempPrice(),
-                    discount: getDecreasePrice(),
-                    orderDetails: orders[activeTab]?.orderDetails,
-                    customer: currentCustomer[activeTab],
-                    user: JSON.parse(localStorage.getItem("user")),
-                  },
-                },
-              }}
-            >
-              <div className="action-btn sales_btn">
-                <button
-                  className="btn"
-                  onClick={() => {
-                    currentCustomer[activeTab].point -= scroreInput;
-                    currentCustomer[activeTab].point += getAccumulatedPoint();
-                  }}
-                  style={{ width: "100%" }}
-                >
-                  <i class="bx bx-credit-card-front action-btn-icon"></i>
-                  Thanh toán
-                </button>
-              </div>
-            </Link>
+          {console.log(orders)}
+          {isAuthenticate() && getTempPrice() > 0 && (
+            <div className="action-btn sales_btn">
+              <button
+                className="btn"
+                onClick={() => {
+                  currentCustomer[activeTab].point -= scroreInput;
+                  currentCustomer[activeTab].point += getAccumulatedPoint();
+                  navigate("/checkout", {
+                    state: {
+                      order: {
+                        activeTab: activeTab,
+                        orderTotal: getTotalPrice(),
+                        subTotal: getTempPrice(),
+                        discount: getDecreasePrice(),
+                        orderDetails: orders[activeTab]?.orderDetails,
+                        customer: currentCustomer[activeTab],
+                        user: JSON.parse(localStorage.getItem("user")),
+                      },
+                    },
+                  });
+                }}
+                style={{ width: "100%" }}
+              >
+                <i class="bx bx-credit-card-front action-btn-icon"></i>
+                Thanh toán
+              </button>
+            </div>
           )}
         </div>
       </div>

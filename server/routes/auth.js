@@ -29,7 +29,7 @@ router.post('/register', async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET
     )
 
-    res.json({ success: true, message: 'Tạo tài khoản thành công', accessToken: accessToken })
+    res.json({ success: true, message: 'Tạo tài khoản thành công', accessToken: accessToken,userId:newUser._id })
 
   } catch (error) {
     console.log(error)
@@ -65,7 +65,7 @@ router.post('/login', async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET
     )
 
-    res.json({ success: true, message: 'Đăng nhập thành công!!!', accessToken: accessToken })
+    res.json({ success: true, message: 'Đăng nhập thành công!!!', accessToken: accessToken,user:user })
 
   } catch (error) {
     console.log(error)

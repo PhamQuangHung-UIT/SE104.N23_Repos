@@ -133,7 +133,7 @@ const AddCustomer = ({ open, handleCancel }) => {
         <div className="action-btn" style={{ margin: "0" }}>
           <button className="btn" onClick={handleSubmit}>
             <i className="bx bx-plus action-btn-icon"></i>
-            Thêm nhân viên{" "}
+            Thêm khách hàng
           </button>
         </div>
       </div>
