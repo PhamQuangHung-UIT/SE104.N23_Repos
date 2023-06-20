@@ -111,5 +111,21 @@ router.get('/search/:search', async (req, res) => {
   }
 });
 
+router.get('/highPoint',verifyToken, async (req, res) => {
+  try {
+    const customers = await Customer.find().sort({ point: -1 }).limit(1);
+
+    if (customers.length === 0) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy khách hàng nào' });
+    }
+
+    return res.status(200).json({ success: true, customer: customers})
+    
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message })
+  }
+})
+
+
 
 module.exports = router
