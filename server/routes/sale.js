@@ -68,4 +68,23 @@ router.delete('/:id', verifyToken, async (req, res) => {
   }
 })
 
+router.get('/orders', verifyToken, async (req, res) => {
+  try {
+    const saleBills = await Sale.find()
+      .populate("customer")
+      .populate("account")
+      .populate('orderDetails.product')
+
+    if (!saleBills) {
+      return res.status(401).json({ success: false, message: "Tài khoản chưa xác thực" })
+    }
+
+    res.json({ success: true, message: 'Lấy tất cả biên lai thành công', saleBill: saleBills })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Mạng của bạn có vấn đề' })
+  }
+})
+
 module.exports = router

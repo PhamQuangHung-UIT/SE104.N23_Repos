@@ -142,6 +142,7 @@ const Sales = () => {
     axios
       .get(`${ENDPOINT}/product/products`)
       .then((res) => {
+        console.log("prudcasdasd",res.data.products)
         setProducts(res.data.products);
         setOriginProducts(res.data.products);
       })
@@ -358,7 +359,7 @@ const Sales = () => {
                     <div className="sales-card-img">
                       <img
                         className="sales-card-img"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgvqLjvl795N6JYsbFj8rZmNegGkbt1jz1aA&usqp=CAU"
+                        src={product.img ? product.img : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgvqLjvl795N6JYsbFj8rZmNegGkbt1jz1aA&usqp=CAU'}
                         alt="Ảnh"
                       />
                     </div>
