@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const verifyToken = require('../middleware/auth')
 const Sale = require('../models/Sale')
+const Customer = require('../models/Customer')
 
 router.post('/', verifyToken, async (req, res) => {
   const { account, customer, subTotal, discount, orderTotal, point, orderDetails } = req.body
@@ -22,7 +23,18 @@ router.post('/', verifyToken, async (req, res) => {
 
     await newSaleBill.save()
 
-    res.status(200).json({ success: true, message: 'Tạo biên lai thành công', saleBill: newSaleBill })
+    const updatedCustomer = await Customer.findByIdAndUpdate(
+      customer,
+      { $inc: { point: parseFloat(point) } },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Tạo biên lai thành công',
+      saleBill: newSaleBill,
+      customer: updatedCustomer,
+    });
 
   } catch (error) {
     console.log(error)
