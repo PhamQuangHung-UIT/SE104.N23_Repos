@@ -5,12 +5,12 @@ import { toast } from "react-toastify";
 import "./AddProduct.css";
 import useFormProduct from "./form_validate/useFormProduct";
 import validateProduct from "./form_validate/validateProduct";
-import { ENDPOINT } from './../../App';
+import { ENDPOINT } from "./../../App";
 
 const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   const inputAvatarRef = useRef(null);
   const [productId, setProductId] = useState();
-  // const [avatar, setAvatar] = useState();
+  const [avatar, setAvatar] = useState();
   const [product, setProduct] = useState({
     name: "",
     amount: 0,
@@ -51,6 +51,43 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
     });
   };
 
+  //active function when choose image from pc
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      console.log(event.target.files[0]);
+      const addImg = async () => {
+        try {
+          const formData = new FormData();
+          formData.append(`file`, event.target.files[0]);
+          formData.append("upload_preset", "minaTram");
+          formData.append("cloud_name", "ltbichtram");
+          formData.append("folder", "nhapmoncongnghephanmem");
+          const res = await fetch(
+            "https://api.cloudinary.com/v1_1/ltbichtram/image/upload",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          return res.json(); // Trả về response
+        } catch (error) {
+          throw error; // Ném lỗi để xử lý ở bên ngoài
+        }
+      };
+
+      (async () => {
+        try {
+          const response = await addImg();
+          console.log(response);
+          setAvatar(response.url);
+        } catch (error) {
+          // Xử lý lỗi
+          console.log(error);
+        }
+      })();
+    }
+  };
+
   //Submit form
   const submitForm = async () => {
     const formProduct = {
@@ -60,8 +97,8 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
       discount: product.discount,
       salePrice: product.salePrice,
       originPrice: product.originPrice,
+      img: avatar,
     };
-    // formProduct.append("image", avatar);
 
     //post to API
     axios
@@ -174,6 +211,30 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
             />
             <p className="form-error">{errors.originPrice}</p>
           </div>
+        </div>
+      </div>
+      <div className="add_product-form-images">
+        <div className="add_product-form-image">
+          <input
+            ref={inputAvatarRef}
+            type="file"
+            name="img"
+            onChange={onImageChange}
+            style={{ display: "none" }}
+          />
+          <p>Hình ảnh sản phẩm</p>
+          <img
+            onClick={() => {
+              inputAvatarRef.current.click();
+            }}
+            style={{ height: 120, width: 120, cursor: "pointer" }}
+            src={
+              avatar
+                ? avatar
+                : "https://cdn-icons-png.flaticon.com/512/3342/3342137.png"
+            }
+            alt=""
+          />
         </div>
       </div>
       <div className="form-btn-row">

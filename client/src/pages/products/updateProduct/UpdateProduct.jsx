@@ -2,17 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
 import "./updateProduct.css";
-
 import { toast } from "react-toastify";
 import useFormProduct from "../form_validate/useFormProduct";
 import validateProduct from "../form_validate/validateProduct";
-import { ENDPOINT } from './../../../App';
+import { ENDPOINT } from "./../../../App";
 
 const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
   const inputAvatarRef = useRef(null);
   const [avatar, setAvatar] = useState();
   const [categories, setCategories] = useState([]);
-
+console.log(product)
   //get All cateogories
   useEffect(() => {
     axios.get(`${ENDPOINT}/product`).then((res) => {
@@ -53,15 +52,43 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
   //active function when choose image from pc
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      setAvatar(event.target.files[0]);
+      console.log(event.target.files[0]);
+      const uploadImg = async () => {
+        try {
+          const formData = new FormData();
+          formData.append(`file`, event.target.files[0]);
+          formData.append("upload_preset", "minaTram");
+          formData.append("cloud_name", "ltbichtram");
+          formData.append("folder", "nhapmoncongnghephanmem");
+          const res = await fetch(
+            "https://api.cloudinary.com/v1_1/ltbichtram/image/upload",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          return res.json(); // Trả về response
+          
+        } catch (error) {
+          throw error; // Ném lỗi để xử lý ở bên ngoài
+        }
+      };
+      
+      (async () => {
+        try {
+          const response = await uploadImg();
+          console.log(response);
+          setAvatar(response.url);
+        } catch (error) {
+          // Xử lý lỗi
+          console.log(error);
+        }
+      })();
     }
   };
 
   //Submit form
   const submitForm = async () => {
-    console.log("Hello from Test");
-    console.log(product);
-    // console.log(categoryId);
     const formProduct = {
       name: product.name,
       amount: product.amount,
@@ -69,6 +96,7 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
       discount: product.discount,
       salePrice: product.salePrice,
       originPrice: product.originPrice,
+      img: avatar,
     };
 
     //post to API
@@ -99,10 +127,6 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
     <div className="form-container">
       <div className="form-heading">
         <h3 className="form-heading-title">Cập nhật sản phẩm</h3>
-        <div className="form-heading-info">
-          <p>Thông tin</p>
-          <div className="line-add"></div>
-        </div>
         <div onClick={onExitClick} className="form-btn-exit">
           X
         </div>
@@ -182,7 +206,7 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
           </div>
         </div>
       </div>
-      {/* <div className="form-images">
+      <div className="form-images" style={{ marginLeft: "40px" }}>
         <div className="form-image">
           <input
             ref={inputAvatarRef}
@@ -195,12 +219,12 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
             onClick={() => {
               inputAvatarRef.current.click();
             }}
-            style={{ height: 120, width: 120 }}
-            src={avatar ? URL.createObjectURL(avatar) : product.imageUrl}
+            style={{ height: 120, width: 120, cursor: "pointer" }}
+            src={avatar? avatar : product.img}
             alt=""
           />
         </div>
-      </div> */}
+      </div>
       <div className="form-btn-row">
         <button onClick={handleSubmit} className="form-btn-save">
           Lưu

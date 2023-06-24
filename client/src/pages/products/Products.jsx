@@ -86,6 +86,7 @@ const Products = () => {
       .get(`${ENDPOINT}/product/products`)
       .then((res) => {
         setProducts(res.data.products);
+        console.log(res.data.products)
         setOriginProducts(res.data.products);
       })
       .catch((err) => {
@@ -274,7 +275,6 @@ const Products = () => {
                             <TableCell
                               onClick={() => {
                                 console.log("delete");
-
                                 setSelectedProduct(row);
                                 setShowDialogDelete(true);
                               }}

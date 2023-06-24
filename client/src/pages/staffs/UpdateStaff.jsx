@@ -9,6 +9,7 @@ import { ENDPOINT } from './../../App';
 
 const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
   const inputAvatarRef = useRef(null);
+  const [avatar, setAvatar] = useState();
   //Call API
   const submitForm = () => {
     const formStaff = {
@@ -19,7 +20,7 @@ const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
       sex: staff.sex,
       email: staff.email,
       telephoneNumber: staff.telephoneNumber,
-      avatarUrl: staff.avatarUrl
+      img: avatar
     };
 
     //post to API
@@ -39,15 +40,47 @@ const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
     setStaff,
     validateUpdateStaff
   );
-  const [avatar, setAvatar] = useState();
-  const onImageChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      setAvatar(event.target.files[0]);
-    }
-  };
   const onExitClick = () => {
     setShowFormUpdateStaff(false);
   };
+//active function when choose image from pc
+const onImageChange = (event) => {
+  if (event.target.files && event.target.files[0]) {
+    console.log(event.target.files[0]);
+    const uploadImg = async () => {
+      try {
+        const formData = new FormData();
+        formData.append(`file`, event.target.files[0]);
+        formData.append("upload_preset", "minaTram");
+        formData.append("cloud_name", "ltbichtram");
+        formData.append("folder", "nhapmoncongnghephanmem");
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/ltbichtram/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        return res.json(); // Trả về response
+        
+      } catch (error) {
+        throw error; // Ném lỗi để xử lý ở bên ngoài
+      }
+    };
+    
+    (async () => {
+      try {
+        const response = await uploadImg();
+        console.log(response);
+        setAvatar(response.url);
+      } catch (error) {
+        // Xử lý lỗi
+        console.log(error);
+      }
+    })();
+  }
+};
+
   return (
     <div className="form-container">
       <div className="form-heading">
@@ -59,7 +92,7 @@ const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
       <div className="form-body">
         <div className="form_img">
           <img
-            src={avatar ? URL.createObjectURL(avatar) : staff.imgUrl}
+            src={avatar ? avatar : staff.img}
             alt=""
             className="form-avatar"
           />
