@@ -34,7 +34,7 @@ const AccountSchema = new schema({
     type: String,
     default: '',
   },
-  avatarUrl: {
+  img: {
     type: String,
     default: '',
   },

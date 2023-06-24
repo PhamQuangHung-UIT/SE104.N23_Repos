@@ -7,7 +7,7 @@ const Account = require('../models/Account')
 
 router.post('/register', async (req, res) => {
 
-  const { account, password, fullname, address, sex, email, telephoneNumber, avatarUrl } = req.body
+  const { account, password, fullname, address, sex, email, telephoneNumber, img } = req.body
 
   if (!account || !password || !fullname || !address || !sex || !email || !telephoneNumber)
     return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Tài khoản đã tồn tại' })
 
     const hashedPassword = await argon2.hash(password)
-    const newUser = new Account({ account, password: hashedPassword, fullname, address, sex, email, telephoneNumber, avatarUrl })
+    const newUser = new Account({ account, password: hashedPassword, fullname, address, sex, email, telephoneNumber, img })
     await newUser.save()
 
     const accessToken = jwt.sign(
@@ -91,7 +91,7 @@ router.get('/getAllStaffs', verifyToken, async (req, res) => {
 
 router.put('/update/:id', verifyToken, async (req, res) => {
 
-  const { account,  fullname, address, sex, email, telephoneNumber, avatarUrl } = req.body
+  const { account,  fullname, address, sex, email, telephoneNumber, img } = req.body
 
   if (!account  || !fullname || !address || !sex || !email || !telephoneNumber)
     return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
@@ -104,7 +104,7 @@ router.put('/update/:id', verifyToken, async (req, res) => {
       sex,
       email,
       telephoneNumber,
-      avatarUrl
+      img
     }
     const accountUpdateContidion = { _id: req.params.id, user: req.userId }
     updateAccount = await Account.findByIdAndUpdate(
