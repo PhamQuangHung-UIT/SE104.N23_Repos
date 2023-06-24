@@ -165,7 +165,7 @@ router.get('/search/:query', verifyToken, async (req, res) => {
           success: false,
           message: 'User Not Authorized'
         })
-    res.json({ success: true, message: 'Search successfully!', queryResult: queryResult })
+    res.json({ success: true, message: 'Search successfully!', staffs: queryResult })
 
   } catch (error) {
     console.log(error)
