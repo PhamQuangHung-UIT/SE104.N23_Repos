@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useFormStaff from "./form_validate/useFormStaff";
 import validateUpdateStaff from "./form_validate/validateUpdateStaff";
 import { GrClose } from "react-icons/gr";
-import { ENDPOINT } from './../../App';
+import { ENDPOINT } from "./../../App";
 
 const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
   const inputAvatarRef = useRef(null);
@@ -20,7 +20,7 @@ const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
       sex: staff.sex,
       email: staff.email,
       telephoneNumber: staff.telephoneNumber,
-      img: avatar
+      img: avatar,
     };
 
     //post to API
@@ -43,43 +43,42 @@ const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
   const onExitClick = () => {
     setShowFormUpdateStaff(false);
   };
-//active function when choose image from pc
-const onImageChange = (event) => {
-  if (event.target.files && event.target.files[0]) {
-    console.log(event.target.files[0]);
-    const uploadImg = async () => {
-      try {
-        const formData = new FormData();
-        formData.append(`file`, event.target.files[0]);
-        formData.append("upload_preset", "minaTram");
-        formData.append("cloud_name", "ltbichtram");
-        formData.append("folder", "nhapmoncongnghephanmem");
-        const res = await fetch(
-          "https://api.cloudinary.com/v1_1/ltbichtram/image/upload",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        return res.json(); // Trả về response
-        
-      } catch (error) {
-        throw error; // Ném lỗi để xử lý ở bên ngoài
-      }
-    };
-    
-    (async () => {
-      try {
-        const response = await uploadImg();
-        console.log(response);
-        setAvatar(response.url);
-      } catch (error) {
-        // Xử lý lỗi
-        console.log(error);
-      }
-    })();
-  }
-};
+  //active function when choose image from pc
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      console.log(event.target.files[0]);
+      const uploadImg = async () => {
+        try {
+          const formData = new FormData();
+          formData.append(`file`, event.target.files[0]);
+          formData.append("upload_preset", "minaTram");
+          formData.append("cloud_name", "ltbichtram");
+          formData.append("folder", "nhapmoncongnghephanmem");
+          const res = await fetch(
+            "https://api.cloudinary.com/v1_1/ltbichtram/image/upload",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          return res.json(); // Trả về response
+        } catch (error) {
+          throw error; // Ném lỗi để xử lý ở bên ngoài
+        }
+      };
+
+      (async () => {
+        try {
+          const response = await uploadImg();
+          console.log(response);
+          setAvatar(response.url);
+        } catch (error) {
+          // Xử lý lỗi
+          console.log(error);
+        }
+      })();
+    }
+  };
 
   return (
     <div className="form-container">
@@ -95,6 +94,7 @@ const onImageChange = (event) => {
             src={avatar ? avatar : staff.img}
             alt=""
             className="form-avatar"
+            style={{ objectFit: "cover" }}
           />
           <input
             ref={inputAvatarRef}
@@ -116,7 +116,19 @@ const onImageChange = (event) => {
             <span>Mã nhân viên</span>
             <input
               name="account"
+              disabled
               value={staff._id.substr(staff._id.length - 7)}
+              type="text"
+            />
+            <p className="form-error">{errors.account}</p>
+          </div>
+          <div className="form-row">
+            <span>Tên tài khoản</span>
+            <input
+              className={errors.account ? "error" : ""}
+              onChange={handleChange}
+              name="account"
+              value={staff.account}
               type="text"
             />
             <p className="form-error">{errors.account}</p>

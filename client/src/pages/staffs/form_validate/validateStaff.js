@@ -20,7 +20,7 @@ export default function validateStaff(staff) {
   }
   if (!staff.fullname) {
     errors.fullname = "Họ tên là bắt buộc";
-  } else if (!/^[A-Za-z]+/.test(staff.account.trim())) {
+  } else if (!/^[A-Za-z]+/.test(staff.fullname.trim())) {
     errors.username = "Nhập vào tên hợp lệ";
   }
   if (!staff.telephoneNumber) {
@@ -28,13 +28,6 @@ export default function validateStaff(staff) {
   }
   if (!staff.address) {
     errors.address = "Địa chỉ là bắt buộc";
-  }
-  var date_regex =
-    /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-  const date = formatDate(staff.birthday);
-  if (!date_regex.test(date)) {
-    console.log(formatDate(staff.birthday));
-    errors.birthday = "Ngày không hợp lệ";
   }
   return errors;
 }

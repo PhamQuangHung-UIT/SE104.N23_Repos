@@ -5,19 +5,19 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useFormStaff from "./form_validate/useFormStaff";
 import validateStaff from "./form_validate/validateStaff";
-import { ENDPOINT } from './../../App';
+import { ENDPOINT } from "./../../App";
 const AddStaff = ({ setShowFormAddStaff }) => {
   const inputAvatarRef = useRef(null);
+  const [avatar, setAvatar] = useState();
   const [staff, setStaff] = useState({
     account: "",
     password: "",
     telephoneNumber: "",
     address: "",
-    birthday: new Date(),
     sex: "Nam",
     email: "",
     fullname: "",
-    avatarUrl: "kkk",
+    img: "",
   });
 
   //Call API
@@ -27,13 +27,14 @@ const AddStaff = ({ setShowFormAddStaff }) => {
       password: staff.password,
       fullname: staff.fullname,
       address: staff.address,
-      birthday: staff.birthday,
       sex: staff.sex,
       email: staff.email,
       telephoneNumber: staff.telephoneNumber,
-      avatarUrl: staff.avatarUrl,
+      img: avatar
+        ? avatar
+        : "https://cdn-icons-png.flaticon.com/512/3342/3342137.png",
     };
-
+    console.log("submit");
     //post to API
     axios
       .post(`${ENDPOINT}/auth/register`, formStaff)
@@ -45,10 +46,50 @@ const AddStaff = ({ setShowFormAddStaff }) => {
         toast("Thêm mới nhân viên thất bại");
       });
   };
-  const { handleChange, handleSubmit, errors } =
-    useFormStaff(submitForm, staff, setStaff, validateStaff);
+  const { handleChange, handleSubmit, errors } = useFormStaff(
+    submitForm,
+    staff,
+    setStaff,
+    validateStaff
+  );
   const onExitClick = () => {
     setShowFormAddStaff(false);
+  };
+  //active function when choose image from pc
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      console.log(event.target.files[0]);
+      const uploadImg = async () => {
+        try {
+          const formData = new FormData();
+          formData.append(`file`, event.target.files[0]);
+          formData.append("upload_preset", "minaTram");
+          formData.append("cloud_name", "ltbichtram");
+          formData.append("folder", "nhapmoncongnghephanmem");
+          const res = await fetch(
+            "https://api.cloudinary.com/v1_1/ltbichtram/image/upload",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          return res.json(); // Trả về response
+        } catch (error) {
+          throw error; // Ném lỗi để xử lý ở bên ngoài
+        }
+      };
+
+      (async () => {
+        try {
+          const response = await uploadImg();
+          console.log(response);
+          setAvatar(response.url);
+        } catch (error) {
+          // Xử lý lỗi
+          console.log(error);
+        }
+      })();
+    }
   };
 
   return (
@@ -61,11 +102,20 @@ const AddStaff = ({ setShowFormAddStaff }) => {
       </div>
       <div className="form-body">
         <div className="form_img">
-          <img src="" alt="" className="form-avatar" />
+          <img
+            src={
+              avatar
+                ? avatar
+                : "https://cdn-icons-png.flaticon.com/512/3342/3342137.png"
+            }
+            alt=""
+            className="form-avatar"
+            style={{ objectFit: "cover" }}
+          />
           <input
             ref={inputAvatarRef}
             type="file"
-            // onChange={onImageChange}
+            onChange={onImageChange}
             style={{ display: "none" }}
           />
           <button
@@ -89,7 +139,17 @@ const AddStaff = ({ setShowFormAddStaff }) => {
             />
             <p className="form-error">{errors.account}</p>
           </div>
-
+          <div className="form-row">
+            <span>Họ tên</span>
+            <input
+              name="fullname"
+              onChange={handleChange}
+              value={staff.fullname}
+              className={errors.fullname ? "error" : ""}
+              type="text"
+            />
+            <p className="form-error">{errors.fullname}</p>
+          </div>
           <div className="form-row">
             <span>Mật khẩu</span>
             <input
@@ -101,7 +161,6 @@ const AddStaff = ({ setShowFormAddStaff }) => {
             />
             <p className="form-error">{errors.password}</p>
           </div>
-
           <div className="form-row">
             <span>Giới tính</span>
 
@@ -117,22 +176,11 @@ const AddStaff = ({ setShowFormAddStaff }) => {
             </select>
           </div>
           <div className="form-row">
-            <span>Họ tên</span>
-            <input
-              name="fullname"
-              onChange={handleChange}
-              value={staff.fullname}
-              className={errors.fullname ? "error" : ""}
-              type="text"
-            />
-            <p className="form-error">{errors.fullname}</p>
-          </div>
-          <div className="form-row">
             <span>Email</span>
             <input
               name="email"
               onChange={handleChange}
-              value={staff.value}
+              value={staff.email}
               type="text"
               className={errors.email ? "error" : ""}
             />
