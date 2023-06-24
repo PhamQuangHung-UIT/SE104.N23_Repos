@@ -173,4 +173,41 @@ router.get('/search/:query', verifyToken, async (req, res) => {
   }
 })
 
+
+router.put('/changePassword', verifyToken, async (req, res) => {
+
+  const { oldPassword, newPassword, confirmPassword } = req.body
+
+  if (!oldPassword || !newPassword || !confirmPassword)
+    return res
+      .status(400)
+      .json({ success: false, message: 'Form bị điền thiếu công tin' })
+  if (newPassword != confirmPassword)
+    return res
+      .status(400)
+      .json({ success: false, message: "Mật khẩu xác nhận và mật khẩu mới không trùng nhau" })
+
+  try {
+    const user = await Account.findById(req.userId)
+
+    const passwordValid = await argon2.verify(user.password, oldPassword)
+    if (!passwordValid)
+      return res
+        .status(400)
+        .json({ success: false, message: 'Mật khẩu chưa đúng' })
+
+    const hashedPassword = await argon2.hash(newPassword)
+    user.password = hashedPassword
+    await user.save()
+
+    res.json({ success: true, message: 'Thay đổi mật khẩu thành công' })
+
+  } catch (error) {
+
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Kết nối mạng của bạn có thể có vấn đề' })
+
+  }
+})
+
 module.exports = router
