@@ -18,6 +18,7 @@ import setAuthToken from "../../untils/setAuthToken";
 import AddStaff from "./AddStaff";
 import UpdateStaff from "./UpdateStaff";
 import { ENDPOINT } from "../../App";
+import { BsSearch } from "react-icons/bs";
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -98,6 +99,19 @@ const Staffs = () => {
         toast("Xóa nhân viên thất bại");
       });
   };
+  //filter by phone and name staffs
+ useEffect(()=>{
+  //Call api and get data
+  axios
+    .get(`${ENDPOINT}/auth/search/${searchText}`)
+    .then((response)=>{
+      console.log(response)
+      setStaffs(response.data.staffs)
+    })
+    .catch((error)=>{
+      console.log(error.response.data);
+    })
+ },[searchText])
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -157,10 +171,9 @@ const Staffs = () => {
             onChange={searchTextHandler}
             placeholder="Nhập tên hoặc SĐT nhân viên"
           />
-          <label
-            htmlFor="search_name-input"
-            className="search_name-icon bx bx-search"
-          ></label>
+          <label htmlFor="search_name-input" className="search_name-icon">
+            <BsSearch />
+          </label>
         </div>
       </div>
       <div className="main_list">
