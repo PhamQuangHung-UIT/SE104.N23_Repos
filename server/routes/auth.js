@@ -9,7 +9,7 @@ router.post('/register', async (req, res) => {
 
   const { account, password, fullname, address, sex, email, telephoneNumber, avatarUrl } = req.body
 
-  if (!account || !password || !fullname || !address || !sex || !email || !telephoneNumber || !avatarUrl)
+  if (!account || !password || !fullname || !address || !sex || !email || !telephoneNumber)
     return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
 
   if (password.length < 6)
@@ -93,7 +93,7 @@ router.put('/update/:id', verifyToken, async (req, res) => {
 
   const { account,  fullname, address, sex, email, telephoneNumber, avatarUrl } = req.body
 
-  if (!account  || !fullname || !address || !sex || !email || !telephoneNumber || !avatarUrl)
+  if (!account  || !fullname || !address || !sex || !email || !telephoneNumber)
     return res.status(400).json({ success: false, message: 'Thiếu thông tin cần thiết' })
 
   try {
