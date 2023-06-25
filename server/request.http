@@ -14,12 +14,22 @@ Content-Type: application/json
   "avatarUrl": "https://vn.blog.kkday.com/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg"
 }
 ### 
-POST http://localhost:5000/api/auth/login
+POST http://localhost:5001/api/auth/login
 Content-Type:  application/json
 
 {
-  "account": "staff7",
-  "password": "kkkkkk"
+  "account": "admin1",
+  "password": "kkkkkk2"
+}
+###
+PUT http://localhost:5001/api/auth/changePassword
+Content-Type:  application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDc1NzhkYjcyOWQ5ZGQ5MzZhZWFkOTkiLCJpYXQiOjE2ODc2MTMzNjN9.2gZV3qibT2fUfYoN2Z8lfQtDa3STKoNcIYBZSZOQ00k
+
+{
+  "oldPassword": "kkkkkk1",
+  "newPassword": "kkkkkk2",
+  "confirmPassword": "kkkkkk2"
 }
 ###
 GET  http://localhost:5000/api/auth/getAllStaffs
