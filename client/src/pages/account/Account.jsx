@@ -116,6 +116,8 @@ const Account = ({ rerender, setRerender }) => {
               className="btn mg-0"
               style={{ fontSize: "16px", padding: ".5rem 2rem !important" }}
               onClick={() => {
+              
+                localStorage.removeItem('accessToken')
                 window.location.reload();
               }}
             >

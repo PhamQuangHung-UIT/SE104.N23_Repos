@@ -103,7 +103,7 @@ const Staffs = () => {
  useEffect(()=>{
   //Call api and get data
   axios
-    .get(`${ENDPOINT}/auth/search/${searchText}`)
+    .get(`${ENDPOINT}/auth/search?text=${searchText}`)
     .then((response)=>{
       console.log(response)
       setStaffs(response.data.staffs)

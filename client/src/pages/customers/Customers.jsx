@@ -59,7 +59,7 @@ const Customers = () => {
   };
   // Search by strings
   const handleSearch = (e) => {
-    setSearchText(e.target.value);
+    setSearchText(e.target.value)
   };
   useEffect(() => {
     //Call api and get data

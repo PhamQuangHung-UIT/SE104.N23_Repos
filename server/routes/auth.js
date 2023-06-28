@@ -150,12 +150,16 @@ router.delete('/delete/:id', verifyToken, async (req, res) => {
   }
 })
 
-router.get('/search/:query', verifyToken, async (req, res) => {
+router.get('/search', verifyToken, async (req, res) => {
   try {
+    if(!req.query.text){
+      const data=await Account.find()
+      return res.json( {success: true, message: 'Search successfully!', staffs:data})
+    }
     const queryResult = await Account.find({
       $or: [
-        { fullname: { $regex: req.params.query, $options: 'i' } },
-        { telephoneNumber: { $regex: req.params.query, $options: 'i' } },
+        { fullname: { $regex: req.query.text, $options: 'i' } },
+        { telephoneNumber: { $regex: req.query.text, $options: 'i' } },
       ],
     })
     if (!queryResult)
