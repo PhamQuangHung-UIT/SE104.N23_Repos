@@ -121,7 +121,7 @@ router.put('/update/:id', verifyToken, async (req, res) => {
           message: 'Account Not Found Of User Not Authorized'
         })
 
-    res.json({ success: true, message: 'Excellent Progress!', account: updateAccount })
+    res.json({ success: true, message: 'Cập nhập thông tin nhân viên thành công!', account: updateAccount })
 
   } catch (error) {
     console.log(error)
