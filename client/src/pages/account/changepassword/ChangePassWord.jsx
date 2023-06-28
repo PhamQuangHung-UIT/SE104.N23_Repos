@@ -9,7 +9,6 @@ import validatePassWord from "./validatePassWord";
 import { toast } from "react-toastify";
 
 const ChangePassWord = () => {
-  const history = useHistory();
   const location = useLocation();
   const userLocal = location.state.user;
   const [user, setUser] = useState({
